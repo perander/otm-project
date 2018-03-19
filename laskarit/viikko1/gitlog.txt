@@ -1,0 +1,93 @@
+commit 8312c0e5c6a1638b69d383a4afd7a716b1e73fcc
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 20:52:49 2018 +0200
+
+    ekaa ja kolmatta muokattu
+
+ eka.txt    | 2 ++
+ kolmas.txt | 1 +
+ 2 files changed, 3 insertions(+)
+
+commit 55fd926a1a009555fff78b357db3ec2a4ca344d1
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:53:49 2018 +0200
+
+    tiedoston nimi muutettu ekaksi
+
+ eka.txt      | 76 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ tiedosto.txt | 76 ------------------------------------------------------------
+ 2 files changed, 76 insertions(+), 76 deletions(-)
+
+commit 04a5c07822ce95f26d4467d1d4e688fca54abff4
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:53:07 2018 +0200
+
+    toinen poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit ebb63a7c8c54bc9d6701f4ec51f3e52309966fd4
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:51:23 2018 +0200
+
+    tekstiä poistettu ja lisätty
+
+ tiedosto.txt | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
+
+commit 540e9c022ccbadfb9ccf3641ba3592f842bf323d
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:49:16 2018 +0200
+
+    tekstiä lisätty
+
+ tiedosto.txt | 59 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
+
+commit f500ae494cf378a36e4f79d552572d361903126f
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:45:23 2018 +0200
+
+    uusi lisätty
+
+ stuff/uusi | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 6f27bd7a9142126e8f32a42df504887555f4d55a
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:44:27 2018 +0200
+
+    toinen ja kolmas muokattu
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 7d9da4b5e8bd5d562d3d53709d6f2a1940206ac5
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:43:44 2018 +0200
+
+    kolmas lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 08c08183c7d95c6c7b8ab47c3a024f8142355324
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:40:49 2018 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit f091303fb7a3d52d611e03b2e7d8e7a3bbb99104
+Author: sperande <silva.perander@helsinki.fi>
+Date:   Mon Mar 19 09:37:59 2018 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
