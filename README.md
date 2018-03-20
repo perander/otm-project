@@ -7,6 +7,8 @@ Tykkäsitkö läpästä?
 - [ ] kyllä
 - [x] no joo
 
+
+
 ## Tehtävät
 
 ### Viikko 1
