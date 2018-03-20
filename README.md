@@ -1,5 +1,8 @@
 # Tervetuloa repositorioon
 
+## Tehtävät
+
+### Viikko 1
 
 [gitlog.txt](https://github.com/perander/otm-project/blob/master/laskarit/viikko1/gitlog.txt)
 
