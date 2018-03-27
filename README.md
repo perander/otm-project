@@ -1,13 +1,6 @@
-# Tervetuloa repositorioon
+# Welcome to the repository
 
-Tämä on kurssin otm ensimmäisen viikon laskaritehtävärepo. Haha, **repo**, kuten *kettu*. Huomasitko? Aikamoinen veijari tuo repo.
-
-Tykkäsitkö läpästä?
-
-- [ ] kyllä
-- [x] no joo
-
-
+Here you can find a food diary desktop application, work in progress. The program will be written in JavaScript and the graphical interface will be created with Electron.
 
 ## Tehtävät
 
