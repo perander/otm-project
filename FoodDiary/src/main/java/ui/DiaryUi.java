@@ -83,6 +83,45 @@ public class DiaryUi extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        // login scene
+        VBox loginPane = new VBox(10);
+        HBox inputPane = new HBox(10);
+        loginPane.setPadding(new Insets(10));
+        Label loginLabel = new Label("username");
+        TextField usernameInput = new TextField();
+
+        inputPane.getChildren().addAll(loginLabel, usernameInput);
+        Label loginMessage = new Label();
+
+        Button loginButton = new Button("login");
+        Button createButton = new Button("create new user");
+        loginButton.setOnAction(e -> {
+            String username = usernameInput.getText();
+            menuLabel.setText(username + " logged in...");
+            try {
+                if (diary.login(username)) {
+                    loginMessage.setText("");
+                    redrawFoodlist();
+                    stage.setScene(foodScene);
+                    usernameInput.setText("");
+                } else {
+                    loginMessage.setText("use does not exist");
+                    loginMessage.setTextFill(Color.RED);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+
+        createButton.setOnAction(e -> {
+            usernameInput.setText("");
+            stage.setScene(newUserScene);
+        });
+
+        loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
+
+        loginScene = new Scene(loginPane, 300, 250);
+        
         // new createNewUserScene
         VBox newUserPane = new VBox(10);
 
@@ -101,7 +140,6 @@ public class DiaryUi extends Application {
 //        newNamePane.getChildren().addAll(newNameLabel, newNameInput);
 
         Label userCreationMessage = new Label();
-        Label loginMessage = new Label();
 
         Button createNewUserButton = new Button("create");
         createNewUserButton.setPadding(new Insets(10));
@@ -133,53 +171,10 @@ public class DiaryUi extends Application {
 
         newUserScene = new Scene(newUserPane, 300, 250);
         
-
-        // login scene
-        
-        VBox loginPane = new VBox(10);
-        HBox inputPane = new HBox(10);
-        loginPane.setPadding(new Insets(10));
-        Label loginLabel = new Label("username");
-        TextField usernameInput = new TextField();
-
-        inputPane.getChildren().addAll(loginLabel, usernameInput);
-
-        Button loginButton = new Button("login");
-        Button createButton = new Button("create new user");
-        loginButton.setOnAction(e -> {
-            String username = usernameInput.getText();
-            menuLabel.setText(username + " logged in...");
-            try {
-                if (diary.login(username)) {
-                    loginMessage.setText("");
-                    redrawFoodlist();
-                    stage.setScene(foodScene);
-                    usernameInput.setText("");
-                } else {
-                    loginMessage.setText("use does not exist");
-                    loginMessage.setTextFill(Color.RED);
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-
-        createButton.setOnAction(e -> {
-            usernameInput.setText("");
-            stage.setScene(newUserScene);
-        });
-
-        loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
-
-        loginScene = new Scene(loginPane, 300, 250);
-        
-        
-        
-     
         //setup stage
         
         stage.setTitle("Foods");
-        stage.setScene(newUserScene);
+        stage.setScene(loginScene);
         stage.show();
 //        stage.setOnCloseRequest(e -> {
 //            System.out.println("closing");
