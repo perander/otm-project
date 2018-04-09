@@ -10,7 +10,6 @@ import dao.EntryDao;
 import dao.FoodDao;
 import dao.UserDao;
 import domain.Diary;
-import domain.Entry;
 import domain.Food;
 import java.sql.SQLException;
 import java.util.List;
@@ -100,12 +99,13 @@ public class DiaryUi extends Application {
             menuLabel.setText(username + " logged in...");
             try {
                 if (diary.login(username)) {
-                    loginMessage.setText("");
+                    loginMessage.setText("logging in succesful");
+                    loginMessage.setTextFill(Color.GREEN);
                     redrawFoodlist();
                     stage.setScene(foodScene);
                     usernameInput.setText("");
                 } else {
-                    loginMessage.setText("use does not exist");
+                    loginMessage.setText("user does not exist");
                     loginMessage.setTextFill(Color.RED);
                 }
             } catch (SQLException ex) {
