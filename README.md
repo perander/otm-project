@@ -1,6 +1,6 @@
 # Welcome to the repository
 
-Here you can find a food diary desktop application, work in progress. The program will be written in JavaScript and the graphical interface will be created with Electron.
+Here you can find a food diary desktop application, work in progress.
 
 ## Tehtävät
 
