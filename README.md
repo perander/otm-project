@@ -6,3 +6,11 @@ Completed functionality to date:
 
 - possibility to create a username
   - username is saved to a database
+
+
+
+## Documentation
+
+[Conception](https://github.com/perander/otm-project/blob/master/FoodDiary/documentation/conception.md)
+
+[Timeline](https://github.com/perander/otm-project/blob/master/FoodDiary/documentation/timeline.md)
