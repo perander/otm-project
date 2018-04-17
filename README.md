@@ -14,3 +14,6 @@ Completed functionality to date:
 [Conception](https://github.com/perander/otm-project/blob/master/FoodDiary/documentation/conception.md)
 
 [Timeline](https://github.com/perander/otm-project/blob/master/FoodDiary/documentation/timeline.md)
+
+[Architecture](https://github.com/perander/otm-project/blob/master/FoodDiary/documentation/architecture.md)
+
