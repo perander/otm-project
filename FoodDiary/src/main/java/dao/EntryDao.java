@@ -33,7 +33,7 @@ public class EntryDao implements Dao<Entry, Integer> {
                 return null;
             }
 
-            e = new Entry(key, rs.getInt("user_id"), rs.getInt("food_id"), 
+            e = new Entry(key, rs.getInt("user_id"), rs.getInt("food_id"),
                     rs.getDate("date"), rs.getDouble("amount"));
             rs.close();
             stmt.close();
@@ -49,8 +49,8 @@ public class EntryDao implements Dao<Entry, Integer> {
         try (Connection conn = database.getConnection();
                 ResultSet rs = conn.prepareStatement("SELECT * FROM Entry").executeQuery()) {
             while (rs.next()) {
-                entries.add(new Entry(rs.getInt("id"), rs.getInt("user_id"), rs.getInt("food_id"), 
-                    rs.getDate("date"), rs.getDouble("amount")));
+                entries.add(new Entry(rs.getInt("id"), rs.getInt("user_id"), rs.getInt("food_id"),
+                        rs.getDate("date"), rs.getDouble("amount")));
             }
         }
         return entries;
@@ -63,9 +63,9 @@ public class EntryDao implements Dao<Entry, Integer> {
                     + "WHERE id = ?");
             stmt.setInt(1, key);
             stmt.executeUpdate();
-            
+
             stmt.close();
-        }    
+        }
     }
 
     @Override
@@ -118,14 +118,14 @@ public class EntryDao implements Dao<Entry, Integer> {
 
     public List<Entry> findByFoodId(Integer id) throws SQLException {
         List<Entry> entries = new ArrayList<>();
-        
+
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT Entry.id, "
-                + "Entry.user_id, Entry.food_id, Entry.date, Entry.amount "
-                + "FROM Food, Entry, User "
-                + "WHERE Food.id = ? "
-                + "AND User.id = Entry.user_id "
-                + "AND Food.id = Entry.food_id;");
+                    + "Entry.user_id, Entry.food_id, Entry.date, Entry.amount "
+                    + "FROM Food, Entry, User "
+                    + "WHERE Food.id = ? "
+                    + "AND User.id = Entry.user_id "
+                    + "AND Food.id = Entry.food_id;");
             stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();

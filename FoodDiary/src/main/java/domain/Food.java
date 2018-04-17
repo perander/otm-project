@@ -10,12 +10,13 @@ package domain;
  * @author sperande
  */
 public class Food {
+
     private int id;
     private String name;
     private double carb;
     private double protein;
     private double fat;
-    
+
     public Food(int id, String name, double carb, double protein, double fat) {
         this.id = id;
         this.name = name;
@@ -27,7 +28,7 @@ public class Food {
     public int getId() {
         return id;
     }
-   
+
     public String getName() {
         return name;
     }
@@ -43,6 +44,5 @@ public class Food {
     public double getFat() {
         return fat;
     }
-    
-    
+
 }

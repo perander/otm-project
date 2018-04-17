@@ -32,7 +32,7 @@ public class UserDao implements Dao<User, Integer> {
             if (!hasOne) {
                 return null;
             }
-            
+
             u = new User(rs.getInt("id"), rs.getString("name"));
             rs.close();
             stmt.close();
@@ -60,7 +60,7 @@ public class UserDao implements Dao<User, Integer> {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM User WHERE id = ?");
             stmt.setInt(1, key);
             stmt.executeUpdate();
-            
+
             //delete also users collection (all foods in the collection)
             PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM Entry WHERE user_id = ?");
             stmt2.setInt(1, key);

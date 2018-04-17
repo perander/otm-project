@@ -15,23 +15,23 @@ import java.util.List;
 /*
  * Application logic
  */
-
 /**
  *
  * @author sperande
  */
 public class Diary {
+
     private FoodDao foodDao;
     private UserDao userDao;
     private EntryDao entryDao;
     private User loggedIn;
 
-    public Diary(FoodDao foodDao, UserDao userDao, EntryDao entryDao){
+    public Diary(FoodDao foodDao, UserDao userDao, EntryDao entryDao) {
         this.foodDao = foodDao;
         this.userDao = userDao;
         this.entryDao = entryDao;
     }
-    
+
     public boolean addFood(int id, String name, Double carb, Double protein, Double fat) {
         Food f = new Food(id, name, carb, protein, fat);
         try {
@@ -41,13 +41,12 @@ public class Diary {
         }
         return true;
     }
-    
-    
+
     //returns ALL the foods -> should be an entry list
-    public List<Food> getUsersCollection() throws SQLException{        
+    public List<Food> getUsersCollection() throws SQLException {
         return foodDao.findAll();
     }
-    
+
     /**
      * logging in
      *
@@ -55,7 +54,6 @@ public class Diary {
      *
      * @return true if username exists, else false
      */
-    
     public boolean login(String username) throws SQLException {
         User user = userDao.findByName(username);
         if (user == null) {
@@ -66,8 +64,7 @@ public class Diary {
 
         return true;
     }
-    
-    
+
     /**
      * user currently logged in
      *
@@ -76,14 +73,14 @@ public class Diary {
     public User getLoggedUser() {
         return loggedIn;
     }
-    
+
     /**
      * logging out
      */
     public void logout() {
         loggedIn = null;
     }
-    
+
     /**
      * signing up / creating an 'account'
      *
@@ -91,21 +88,19 @@ public class Diary {
      *
      * @return true if sign up successful, else false
      */
-    
-    public boolean createUser(String username) throws SQLException{
-        if(userDao.findByName(username) != null){
+    public boolean createUser(String username) throws SQLException {
+        if (userDao.findByName(username) != null) {
             return false;
         }
-        
+
         User user = new User(username);
         try {
             userDao.saveOrUpdate(user);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return false;
         }
-        
+
         return true;
     }
-    
-    
+
 }

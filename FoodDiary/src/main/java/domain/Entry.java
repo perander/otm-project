@@ -10,12 +10,12 @@ import java.sql.Date;
 /*
  * A food added to a users collection
  */
-
 /**
  *
  * @author sperande
  */
 public class Entry {
+
     private Integer id;
     private Integer userId;
     private Integer foodId;
@@ -50,7 +50,5 @@ public class Entry {
     public Double getAmount() {
         return amount;
     }
-    
-    
-    
+
 }

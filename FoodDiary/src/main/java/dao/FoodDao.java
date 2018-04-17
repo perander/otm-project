@@ -30,7 +30,7 @@ public class FoodDao implements Dao<Food, Integer> {
                         + "FROM Food").executeQuery()) {
             while (rs.next()) {
                 foods.add(new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
-                rs.getDouble("protein"), rs.getDouble("fat")));
+                        rs.getDouble("protein"), rs.getDouble("fat")));
             }
         }
         return foods;
@@ -81,7 +81,7 @@ public class FoodDao implements Dao<Food, Integer> {
             }
 
             return new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
-                rs.getDouble("protein"), rs.getDouble("fat"));
+                    rs.getDouble("protein"), rs.getDouble("fat"));
         }
     }
 
@@ -96,7 +96,7 @@ public class FoodDao implements Dao<Food, Integer> {
                         + "AND Food.id = Entry.food_id").executeQuery()) {
             while (rs.next()) {
                 ainekset.add(new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
-                rs.getDouble("protein"), rs.getDouble("fat")));
+                        rs.getDouble("protein"), rs.getDouble("fat")));
             }
         }
         return ainekset;
@@ -114,7 +114,7 @@ public class FoodDao implements Dao<Food, Integer> {
             }
 
             f = new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
-                rs.getDouble("protein"), rs.getDouble("fat"));
+                    rs.getDouble("protein"), rs.getDouble("fat"));
             rs.close();
             stmt.close();
         }

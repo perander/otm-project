@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author sperande
  */
 public class User {
+
     private int id;
     private String username;
 
@@ -49,6 +50,5 @@ public class User {
         }
         return true;
     }
-    
-    
+
 }

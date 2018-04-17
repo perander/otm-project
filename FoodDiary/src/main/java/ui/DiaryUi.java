@@ -34,27 +34,28 @@ import javafx.stage.Stage;
  * @author sperande
  */
 public class DiaryUi extends Application {
+
     private Diary diary;
-    
+
     private Scene foodScene;
     private Scene newUserScene;
     private Scene loginScene;
-    
+
     private VBox FoodNodes;
 
     private Label menuLabel = new Label();
-    
+
     @Override
     public void init() throws Exception {
-        
+
         Database database = new Database("jdbc:sqlite:fooddiary.db");
-        
+
         UserDao userDao = new UserDao(database);
         FoodDao foodDao = new FoodDao(database);
         EntryDao entryDao = new EntryDao(database);
         diary = new Diary(foodDao, userDao, entryDao);
     }
-    
+
     public Node createFoodNode(Food food) {
         HBox box = new HBox(10);
         Label label = new Label(food.getName());
@@ -67,7 +68,7 @@ public class DiaryUi extends Application {
         box.getChildren().addAll(label, spacer);
         return box;
     }
-    
+
     public void redrawFoodlist() throws SQLException {
         FoodNodes.getChildren().clear();
 
@@ -78,7 +79,6 @@ public class DiaryUi extends Application {
         });
     }
 
-    
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -121,7 +121,7 @@ public class DiaryUi extends Application {
         loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
 
         loginScene = new Scene(loginPane, 300, 250);
-        
+
         // new createNewUserScene
         VBox newUserPane = new VBox(10);
 
@@ -138,7 +138,6 @@ public class DiaryUi extends Application {
 //        Label newNameLabel = new Label("name");
 //        newNameLabel.setPrefWidth(100);
 //        newNamePane.getChildren().addAll(newNameLabel, newNameInput);
-
         Label userCreationMessage = new Label();
 
         Button createNewUserButton = new Button("create");
@@ -151,18 +150,20 @@ public class DiaryUi extends Application {
             if (username.length() < 3) {
                 userCreationMessage.setText("username or name too short");
                 userCreationMessage.setTextFill(Color.RED);
-            } else try {
-                if (diary.createUser(username)) {
-                    userCreationMessage.setText("");
-                    loginMessage.setText("new user created");
-                    loginMessage.setTextFill(Color.GREEN);
-                    stage.setScene(loginScene);
-                } else {
-                    userCreationMessage.setText("username has to be unique");
-                    userCreationMessage.setTextFill(Color.RED);
+            } else {
+                try {
+                    if (diary.createUser(username)) {
+                        userCreationMessage.setText("");
+                        loginMessage.setText("new user created");
+                        loginMessage.setTextFill(Color.GREEN);
+                        stage.setScene(loginScene);
+                    } else {
+                        userCreationMessage.setText("username has to be unique");
+                        userCreationMessage.setTextFill(Color.RED);
+                    }
+                } catch (SQLException ex) {
+                    Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         });
@@ -170,9 +171,8 @@ public class DiaryUi extends Application {
         newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane, createNewUserButton);
 
         newUserScene = new Scene(newUserPane, 300, 250);
-        
+
         //setup stage
-        
         stage.setTitle("Foods");
         stage.setScene(loginScene);
         stage.show();
@@ -184,9 +184,8 @@ public class DiaryUi extends Application {
 //            }
 
 //        });
-
     }
-    
+
     @Override
     public void stop() {
         // tee lopetustoimenpiteet täällä
@@ -196,6 +195,5 @@ public class DiaryUi extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    
+
 }
