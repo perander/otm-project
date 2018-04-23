@@ -123,6 +123,8 @@ public class DiaryUi extends Application {
         loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
 
         loginScene = new Scene(loginPane, 300, 250);
+        
+        
 
         // new createNewUserScene
         VBox newUserPane = new VBox(10);
@@ -217,7 +219,6 @@ public class DiaryUi extends Application {
             }
         });
         
-        
         //setup stage
         stage.setTitle("Foods");
         stage.setScene(loginScene);
@@ -235,7 +236,7 @@ public class DiaryUi extends Application {
     @Override
     public void stop() {
         // tee lopetustoimenpiteet täällä
-        System.out.println("sovellus sulkeutuu");
+        System.out.println("thank you, welcome again");
     }
 
     public static void main(String[] args) {
