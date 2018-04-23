@@ -17,8 +17,7 @@ public class Food {
     private double protein;
     private double fat;
 
-    public Food(int id, String name, double carb, double protein, double fat) {
-        this.id = id;
+    public Food(String name, double carb, double protein, double fat) {
         this.name = name;
         this.carb = carb;
         this.protein = protein;

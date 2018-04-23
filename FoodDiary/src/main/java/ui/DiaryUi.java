@@ -21,7 +21,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -41,7 +43,7 @@ public class DiaryUi extends Application {
     private Scene newUserScene;
     private Scene loginScene;
 
-    private VBox FoodNodes;
+    private VBox foodNodes;
 
     private Label menuLabel = new Label();
 
@@ -70,12 +72,12 @@ public class DiaryUi extends Application {
     }
 
     public void redrawFoodlist() throws SQLException {
-        FoodNodes.getChildren().clear();
+        foodNodes.getChildren().clear();
 
         //change to entries
         List<Food> foods = diary.getUsersCollection();
         foods.forEach(food -> {
-            FoodNodes.getChildren().add(createFoodNode(food));
+            foodNodes.getChildren().add(createFoodNode(food));
         });
     }
 
@@ -96,10 +98,10 @@ public class DiaryUi extends Application {
         Button createButton = new Button("create new user");
         loginButton.setOnAction(e -> {
             String username = usernameInput.getText();
-            menuLabel.setText(username + " logged in...");
+            menuLabel.setText(username + " logged in");
             try {
                 if (diary.login(username)) {
-                    loginMessage.setText("logging in succesful");
+                    loginMessage.setText("logging in successful");
                     loginMessage.setTextFill(Color.GREEN);
                     redrawFoodlist();
                     stage.setScene(foodScene);
@@ -172,18 +174,62 @@ public class DiaryUi extends Application {
 
         newUserScene = new Scene(newUserPane, 300, 250);
 
+        
+        // main scene
+        ScrollPane foodScollbar = new ScrollPane();
+        BorderPane mainPane = new BorderPane(foodScollbar);
+        foodScene = new Scene(mainPane, 300, 250);
+
+        HBox menuPane = new HBox(10);
+        Region menuSpacer = new Region();
+        HBox.setHgrow(menuSpacer, Priority.ALWAYS);
+        Button logoutButton = new Button("logout");
+        menuPane.getChildren().addAll(menuLabel, menuSpacer, logoutButton);
+        logoutButton.setOnAction(e -> {
+            diary.logout();
+            loginMessage.setText("logging out successful");
+            stage.setScene(loginScene);
+        });
+
+        HBox createForm = new HBox(10);
+        Button createTodo = new Button("create");
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        TextField newFoodInput = new TextField();
+        createForm.getChildren().addAll(newFoodInput, spacer, createTodo);
+
+        foodNodes = new VBox(10);
+        foodNodes.setMaxWidth(280);
+        foodNodes.setMinWidth(280);
+        redrawFoodlist();
+
+        foodScollbar.setContent(foodNodes);
+        mainPane.setBottom(createForm);
+        mainPane.setTop(menuPane);
+
+        createTodo.setOnAction(e -> {
+            diary.addFood(newFoodInput.getText());
+            newFoodInput.setText("");
+            try {
+                redrawFoodlist();
+            } catch (SQLException ex) {
+                Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        
+        
         //setup stage
         stage.setTitle("Foods");
         stage.setScene(loginScene);
         stage.show();
-//        stage.setOnCloseRequest(e -> {
-//            System.out.println("closing");
-//            System.out.println(diary.getLoggedUser());
-//            if (diary.getLoggedUser() != null) {
-//                e.consume();
-//            }
+        stage.setOnCloseRequest(e -> {
+            System.out.println("closing");
+            System.out.println(diary.getLoggedUser());
+            if (diary.getLoggedUser() != null) {
+                e.consume();
+            }
 
-//        });
+        });
     }
 
     @Override

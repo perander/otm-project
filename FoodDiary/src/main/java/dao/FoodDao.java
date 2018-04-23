@@ -29,7 +29,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 ResultSet rs = conn.prepareStatement("SELECT id, name, carb, protein, fat "
                         + "FROM Food").executeQuery()) {
             while (rs.next()) {
-                foods.add(new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
+                foods.add(new Food(rs.getString("name"), rs.getDouble("carb"),
                         rs.getDouble("protein"), rs.getDouble("fat")));
             }
         }
@@ -80,7 +80,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
 
-            return new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
+            return new Food(rs.getString("name"), rs.getDouble("carb"),
                     rs.getDouble("protein"), rs.getDouble("fat"));
         }
     }
@@ -95,7 +95,7 @@ public class FoodDao implements Dao<Food, Integer> {
                         + "AND User.id = Entry.user_id "
                         + "AND Food.id = Entry.food_id").executeQuery()) {
             while (rs.next()) {
-                ainekset.add(new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
+                ainekset.add(new Food(rs.getString("name"), rs.getDouble("carb"),
                         rs.getDouble("protein"), rs.getDouble("fat")));
             }
         }
@@ -113,7 +113,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
 
-            f = new Food(rs.getInt("id"), rs.getString("name"), rs.getDouble("carb"),
+            f = new Food(rs.getString("name"), rs.getDouble("carb"),
                     rs.getDouble("protein"), rs.getDouble("fat"));
             rs.close();
             stmt.close();

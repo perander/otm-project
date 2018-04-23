@@ -32,8 +32,20 @@ public class Diary {
         this.entryDao = entryDao;
     }
 
-    public boolean addFood(int id, String name, Double carb, Double protein, Double fat) {
-        Food f = new Food(id, name, carb, protein, fat);
+    //only adds a food with a name
+    public boolean addFood(String name){
+        Food f = new Food(name, 0.0, 0.0, 0.0);
+        try {
+            foodDao.saveOrUpdate(f);
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
+    }
+    
+    //adds a food with nutritional value
+    public boolean addFoodTotal(String name, Double carb, Double protein, Double fat) {
+        Food f = new Food(name, carb, protein, fat);
         try {
             foodDao.saveOrUpdate(f);
         } catch (Exception ex) {
