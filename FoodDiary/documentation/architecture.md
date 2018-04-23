@@ -4,12 +4,12 @@
 
 The application uses three classes, which are responsible for the attributes and possible actions of the user, different foods and individual diary entries. These classes and their relationships are described in the image below:
 
-<img src="https://raw.githubusercontent.com/perander/otm-project/tree/master/FoodDiary/images/class_diagram.png">
+<img src="https://raw.githubusercontent.com/perander/otm-project/tree/master/FoodDiary/documentation/images/class_diagram.png">
 
 ## Functinality
 
 When a user has created a valid username and logs in, this is what happens in the application level:
 
-<img src="https://raw.githubusercontent.com/perander/otm-project/tree/master/FoodDiary/images/seq1.png">
+<img src="https://raw.githubusercontent.com/perander/otm-project/tree/master/FoodDiary/documentation/images/seq1.png">
 
 
