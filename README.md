@@ -21,3 +21,53 @@ Completed functionality to date:
 ## Releases
 
 [Week 5](https://github.com/perander/otm-project/releases/tag/week5)
+
+## Command line commands
+
+### Generating the executable jar-file
+
+You can generate the file with the command
+
+```
+mvn package
+```
+
+The file will be created to the target-directory. It can be run with the command
+
+```
+java -jar path/target/filename
+```
+
+
+### Running tests
+
+The tests can be run with the command
+
+```
+mvn test
+```
+
+The test coverage report can be created with the command
+
+```
+mvn jacoco:report
+```
+
+You can see the report by opening the file target/site/jacoco/index.html with a browser.
+
+
+### Checkstyle
+
+To see the results of the checkstyle-tests defined in the checkstyle.xml -file, run the command
+
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
+
+Possible errors are explained in a file target/site/checkstyle.html (open with a browser).
+
+
+
+
+
+
