@@ -17,3 +17,7 @@ Completed functionality to date:
 
 [Architecture](https://github.com/perander/otm-project/blob/master/FoodDiary/documentation/architecture.md)
 
+
+## Releases
+
+[Week 5](https://github.com/perander/otm-project/releases/tag/week5)
