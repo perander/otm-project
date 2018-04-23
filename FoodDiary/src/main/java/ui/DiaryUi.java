@@ -51,6 +51,7 @@ public class DiaryUi extends Application {
     public void init() throws Exception {
 
         Database database = new Database("jdbc:sqlite:fooddiary.db");
+        database.init();
 
         UserDao userDao = new UserDao(database);
         FoodDao foodDao = new FoodDao(database);
