@@ -6,6 +6,8 @@
 package domain;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Objects;
 
 /*
  * A food added to a users collection
@@ -51,4 +53,39 @@ public class Entry {
         return amount;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Entry other = (Entry) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.userId, other.userId)) {
+            return false;
+        }
+        if (!Objects.equals(this.foodId, other.foodId)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
+            return false;
+        }
+        if (!Objects.equals(this.amount, other.amount)) {
+            return false;
+        }
+        return true;
+    }
 }

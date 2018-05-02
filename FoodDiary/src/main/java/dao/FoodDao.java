@@ -72,7 +72,8 @@ public class FoodDao implements Dao<Food, Integer> {
 
     public Food findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT id, name FROM Food WHERE name = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT name, carb, protein, fat"
+                    + " FROM Food WHERE name = ?");
             stmt.setString(1, name);
 
             ResultSet rs = stmt.executeQuery();
@@ -85,22 +86,23 @@ public class FoodDao implements Dao<Food, Integer> {
         }
     }
 
-    public List<Food> findByUSerId(Integer id) throws SQLException {
-        List<Food> ainekset = new ArrayList<>();
-
-        try (Connection conn = database.getConnection();
-                ResultSet rs = conn.prepareStatement("SELECT DISTINCT Food.id, Food.name "
-                        + "FROM Food, User, Entry "
-                        + "WHERE User.id = " + id + " "
-                        + "AND User.id = Entry.user_id "
-                        + "AND Food.id = Entry.food_id").executeQuery()) {
-            while (rs.next()) {
-                ainekset.add(new Food(rs.getString("name"), rs.getDouble("carb"),
-                        rs.getDouble("protein"), rs.getDouble("fat")));
-            }
-        }
-        return ainekset;
-    }
+//    public List<Food> findByUserId(Integer id) throws SQLException {
+//        List<Food> ainekset = new ArrayList<>();
+//
+//        try (Connection conn = database.getConnection();
+//                ResultSet rs = conn.prepareStatement("SELECT DISTINCT Food.id, Food.name, "
+//                        + "Food.carb, Food.protein, Food.fat "
+//                        + "FROM Food, User, Entry "
+//                        + "WHERE User.id = " + id + " "
+//                        + "AND User.id = Entry.user_id "
+//                        + "AND Food.id = Entry.food_id").executeQuery()) {
+//            while (rs.next()) {
+//                ainekset.add(new Food(rs.getString("name"), rs.getDouble("carb"),
+//                        rs.getDouble("protein"), rs.getDouble("fat")));
+//            }
+//        }
+//        return ainekset;
+//    }
 
     @Override
     public Food findOne(Integer key) throws SQLException {

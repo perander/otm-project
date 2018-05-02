@@ -83,7 +83,7 @@ public class EntryDao implements Dao<Entry, Integer> {
             stmt.executeUpdate();
         }
 
-        return null;
+        return e;
     }
 
     //users collection

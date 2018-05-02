@@ -40,7 +40,7 @@ public class DiaryTest {
     }
     
     @Before
-    public void setUp() throws ClassNotFoundException {
+    public void setUp() throws ClassNotFoundException, SQLException {
         Database database = new Database("jdbc:sqlite:fooddiary.db");
         database.init();
 

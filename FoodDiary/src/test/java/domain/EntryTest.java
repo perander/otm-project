@@ -5,6 +5,8 @@
  */
 package domain;
 
+import java.sql.Date;
+import java.text.DateFormat;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author sperande
  */
-public class FoodTest {
+public class EntryTest {
     
-    public FoodTest() {
+    public EntryTest() {
     }
     
     @BeforeClass
@@ -39,20 +41,22 @@ public class FoodTest {
 
     @Test
     public void ConstructorWorks(){
-        Food f = new Food("new", 1.0, 2.0, 3.0);
-        assertEquals("new", f.getName());
-        assertEquals(1.0, f.getCarb(), 0);
-        assertEquals(2.0, f.getProtein(), 0);
-        assertEquals(3.0, f.getFat(), 0);
-       
-    }
-
-    @Test
-    public void foodsAreEqualWithSameParameters() {
-        Food f = new Food("new", 1.0, 2.0, 3.0);
-        Food f2 = new Food("new", 1.0, 2.0, 3.0);
-
-        assertTrue(f.equals(f2));
+        Date date = new Date(1);
+        Entry e = new Entry(1, 2, 3, date, 1.0);
+        assertEquals(1, e.getId(), 0);
+        assertEquals(2, e.getUserId(), 0);
+        assertEquals(3, e.getFoodId(), 0);
+        assertEquals(date, e.getDate());
+        assertEquals(1.0, e.getAmount(), 0);
+        
     }
     
+    @Test
+    public void entriesAreSameWithSameParameters() {
+        Entry e = new Entry(1, 2, 3, new Date(1), 1.0);
+        Entry e2 = new Entry(1, 2, 3, new Date(1), 1.0);
+        
+        assertTrue(e.equals(e2));
+    }
+
 }

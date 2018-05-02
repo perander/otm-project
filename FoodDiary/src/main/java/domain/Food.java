@@ -5,6 +5,8 @@
  */
 package domain;
 
+import java.util.Objects;
+
 /**
  *
  * @author sperande
@@ -42,6 +44,42 @@ public class Food {
 
     public double getFat() {
         return fat;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Food other = (Food) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.carb) != Double.doubleToLongBits(other.carb)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.protein) != Double.doubleToLongBits(other.protein)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.fat) != Double.doubleToLongBits(other.fat)) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return true;
     }
 
 }
