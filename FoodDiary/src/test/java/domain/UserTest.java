@@ -35,6 +35,20 @@ public class UserTest {
     }
     
     @Test
+    public void userConstuctorWorks() {
+        User u = new User("hello");
+        assertTrue(u.getUsername().equals("hello"));
+    }
+    
+    @Test
+    public void userWithIdConstuctorWorks(){
+        User u = new User(1, "hello");
+        assertTrue(u.getId() == 1);
+        assertTrue(u.getUsername().equals("hello"));
+    }
+    
+    
+    @Test
     public void usersAreDifferentWithDifferentUsername(){
         User user1 = new User("mikko");
         User user2 = new User("teppo");
@@ -53,9 +67,4 @@ public class UserTest {
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }

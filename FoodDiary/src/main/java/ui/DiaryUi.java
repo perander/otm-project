@@ -211,7 +211,12 @@ public class DiaryUi extends Application {
         mainPane.setTop(menuPane);
 
         createTodo.setOnAction(e -> {
-            diary.addFood(newFoodInput.getText());
+            Food f = new Food(newFoodInput.getText(), 0.0, 0.0, 0.0);
+            try {
+                diary.addFood(f);
+            } catch (SQLException ex) {
+                Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
             newFoodInput.setText("");
             try {
                 redrawFoodlist();
