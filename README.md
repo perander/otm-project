@@ -69,6 +69,16 @@ mvn jxr:jxr checkstyle:checkstyle
 
 Possible errors are explained in a file target/site/checkstyle.html (open with a browser).
 
+### JavaDoc
+
+To see JavaDoc, run the command
+
+```
+mvn javadoc:javadoc
+```
+
+You can see the JavaDoc by opening the file target/site/apidocs/index.html
+
 
 
 
