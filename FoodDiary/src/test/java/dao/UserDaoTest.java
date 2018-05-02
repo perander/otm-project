@@ -22,37 +22,37 @@ import static org.junit.Assert.*;
  * @author sperande
  */
 public class UserDaoTest {
+
     UserDao userDao;
     Database database;
-    
+
     User user;
-    
+
     public UserDaoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
         database = new Database("jdbc:sqlite:fooddiaryTest.db");
         database.init();
-        
+
         userDao = new UserDao(database);
         user = new User("uusi");
     }
-    
+
     @After
     public void tearDown() throws SQLException {
         database.kill();
     }
 
-    
     @Test
     public void saveOrUpdateWorks() throws SQLException {
         assertEquals(user, userDao.saveOrUpdate(user));
@@ -83,27 +83,26 @@ public class UserDaoTest {
         }
 
     }
-    
+
     @Test
     public void findOneFindsOne() throws SQLException {
         userDao.saveOrUpdate(user);
         assertEquals(user, userDao.findOne(1));
     }
-   
-    
+
     @Test
-    public void deleteWorks() throws SQLException{
+    public void deleteWorks() throws SQLException {
         User first = new User("first");
         User second = new User("another");
         userDao.saveOrUpdate(first);
         userDao.saveOrUpdate(second);
-        
+
         userDao.delete(1);
-        
-        for(User u: userDao.findAll()){
+
+        for (User u : userDao.findAll()) {
             assertTrue(u.equals(second));
         }
-        
+
     }
-    
+
 }

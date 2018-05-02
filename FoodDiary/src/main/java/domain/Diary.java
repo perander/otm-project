@@ -31,19 +31,17 @@ public class Diary {
         this.userDao = userDao;
         this.entryDao = entryDao;
     }
-    
+
     //KANNATTAAKO OLLA KAKSI LISÄYSMETODIA, KUN ON KERRAN JO KAKSI FOOD-KONSTRUKTORIA??
     //voisi olla vain 'addFood(Food f)' ja food olisi määritetty ennen lisäystä
-
     /**
-     * adding a food 
-     * 
+     * adding a food
+     *
      * @param f food to be added
      * @return true if food was added, false if failed
-     * @throws SQLException 
+     * @throws SQLException
      */
-    
-    public boolean addFood(Food f) throws SQLException{
+    public boolean addFood(Food f) throws SQLException {
         try {
             foodDao.saveOrUpdate(f);
         } catch (Exception ex) {
@@ -51,8 +49,7 @@ public class Diary {
         }
         return true;
     }
-    
-    
+
     //only adds a food with a name
 //    public boolean addFood(String name){
 //        Food f = new Food(name, 0.0, 0.0, 0.0);
@@ -74,13 +71,11 @@ public class Diary {
 //        }
 //        return true;
 //    }
-
-    
     /**
      * listing all the foods
-     * 
+     *
      * @return all foods
-     * @throws SQLException 
+     * @throws SQLException
      */
     //returns ALL the foods -> should be an entry list
     public List<Food> getUsersCollection() throws SQLException {

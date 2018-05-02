@@ -49,7 +49,8 @@ public class DiaryUi extends Application {
 
     /**
      * initialise the database and data access object classes
-     * @throws Exception 
+     *
+     * @throws Exception
      */
     @Override
     public void init() throws Exception {
@@ -65,13 +66,15 @@ public class DiaryUi extends Application {
 
     /**
      * create an line with the entered food and its nutritional value
+     *
      * @param food food to be displayed
-     * @return the view with a food name and amount of carbohydrates, protein and fat
+     * @return the view with a food name and amount of carbohydrates, protein
+     * and fat
      */
     public Node createFoodNode(Food food) {
         HBox box = new HBox(50);
-        Label label = new Label(food.getName() + ", carbohydrates: " + food.getCarb() +
-                "g, protein: " + food.getProtein() + "g, fat: " + food.getFat() + "g");
+        Label label = new Label(food.getName() + ", carbohydrates: " + food.getCarb()
+                + "g, protein: " + food.getProtein() + "g, fat: " + food.getFat() + "g");
         label.setMinHeight(28);
 
         Region spacer = new Region();
@@ -84,8 +87,8 @@ public class DiaryUi extends Application {
 
     /**
      * update the food list when a new one is added
-     * 
-     * @throws SQLException 
+     *
+     * @throws SQLException
      */
     public void redrawFoodlist() throws SQLException {
         foodNodes.getChildren().clear();
@@ -99,8 +102,9 @@ public class DiaryUi extends Application {
 
     /**
      * manage the scenes: login, creating a new user, displaying the food list
+     *
      * @param stage
-     * @throws Exception 
+     * @throws Exception
      */
     @Override
     public void start(Stage stage) throws Exception {
@@ -144,8 +148,6 @@ public class DiaryUi extends Application {
         loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
 
         loginScene = new Scene(loginPane, 300, 250);
-        
-        
 
         // new createNewUserScene
         VBox newUserPane = new VBox(10);
@@ -197,7 +199,6 @@ public class DiaryUi extends Application {
 
         newUserScene = new Scene(newUserPane, 300, 250);
 
-        
         // main scene
         ScrollPane foodScollbar = new ScrollPane();
         BorderPane mainPane = new BorderPane(foodScollbar);
@@ -218,29 +219,29 @@ public class DiaryUi extends Application {
         Button createFood = new Button("add");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        
+
         VBox namePane = new VBox(5);
         Label nameLabel = new Label("food name");
         TextField nameInput = new TextField();
         namePane.getChildren().addAll(nameLabel, nameInput);
-        
+
         VBox carbPane = new VBox(5);
         Label carbLabel = new Label("carbohydrates");
         TextField carbInput = new TextField();
         carbPane.getChildren().addAll(carbLabel, carbInput);
-        
+
         VBox proteinPane = new VBox(5);
         Label proteinLabel = new Label("protein");
         TextField proteinInput = new TextField();
         proteinPane.getChildren().addAll(proteinLabel, proteinInput);
-        
+
         VBox fatPane = new VBox(5);
         Label fatLabel = new Label("fat");
         TextField fatInput = new TextField();
         fatPane.getChildren().addAll(fatLabel, fatInput);
-        
+
         Label title = new Label("Add a new food");
-        
+
         createForm.getChildren().addAll(title, namePane, carbPane, proteinPane,
                 fatPane, createFood);
 
@@ -254,9 +255,9 @@ public class DiaryUi extends Application {
         mainPane.setTop(menuPane);
 
         createFood.setOnAction(e -> {
-            Food f = new Food(nameInput.getText(), 
-                    Double.parseDouble(carbInput.getText()), 
-                    Double.parseDouble(proteinInput.getText()), 
+            Food f = new Food(nameInput.getText(),
+                    Double.parseDouble(carbInput.getText()),
+                    Double.parseDouble(proteinInput.getText()),
                     Double.parseDouble(fatInput.getText()));
             try {
                 diary.addFood(f);
@@ -267,14 +268,14 @@ public class DiaryUi extends Application {
             carbInput.setText("");
             proteinInput.setText("");
             fatInput.setText("");
-            
+
             try {
                 redrawFoodlist();
             } catch (SQLException ex) {
                 Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         //setup stage
         stage.setTitle("Foods");
         stage.setScene(loginScene);
@@ -298,7 +299,6 @@ public class DiaryUi extends Application {
         System.out.println("thank you, welcome again");
     }
 
-    
     public static void main(String[] args) {
         launch(args);
     }

@@ -23,85 +23,85 @@ import static org.junit.Assert.*;
  * @author sperande
  */
 public class FoodDaoTest {
+
     Database database;
     FoodDao foodDao;
     Food food;
-    
+
     public FoodDaoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
         database = new Database("jdbc:sqlite:fooddiaryTest.db");
         database.init();
-        
+
         foodDao = new FoodDao(database);
         food = new Food("uusi", 0.0, 0.0, 0.0);
     }
-    
+
     @After
     public void tearDown() throws SQLException {
         database.kill();
     }
 
     @Test
-    public void saveOrUpdateWorks() throws SQLException{
+    public void saveOrUpdateWorks() throws SQLException {
         assertEquals(food, foodDao.saveOrUpdate(food));
     }
-    
+
     @Test
-    public void findByNameWorks() throws SQLException{
+    public void findByNameWorks() throws SQLException {
         foodDao.saveOrUpdate(food);
         assertEquals(food, foodDao.findByName("uusi"));
     }
-    
-    
+
     @Test
-    public void findAllFindsAll() throws SQLException{
+    public void findAllFindsAll() throws SQLException {
         Food first = new Food("first", 0.0, 0.0, 0.0);
         Food second = new Food("another", 0.0, 0.0, 0.0);
         foodDao.saveOrUpdate(first);
         foodDao.saveOrUpdate(second);
-        
+
         ArrayList<Food> list = new ArrayList<>();
-        
+
         list.add(first);
         list.add(second);
-        
+
         List<Food> list2 = foodDao.findAll();
-        
+
         for (int i = 0; i < list.size(); i++) {
             assertTrue(list.get(0).equals(list2.get(0)));
         }
-        
+
     }
-    
+
     @Test
-    public void findOneFindsOne() throws SQLException{
+    public void findOneFindsOne() throws SQLException {
         foodDao.saveOrUpdate(food);
         assertEquals(food, foodDao.findOne(1));
     }
-    
+
     @Test
-    public void deleteWorks() throws SQLException{
+    public void deleteWorks() throws SQLException {
         Food first = new Food("first", 0.0, 0.0, 0.0);
         Food second = new Food("another", 0.0, 0.0, 0.0);
         foodDao.saveOrUpdate(first);
         foodDao.saveOrUpdate(second);
-        
+
         foodDao.delete(1);
-        
-        for(Food f: foodDao.findAll()){
+
+        for (Food f : foodDao.findAll()) {
             assertTrue(f.equals(second));
         }
-        
+
     }
 }

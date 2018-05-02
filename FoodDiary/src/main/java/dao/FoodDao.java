@@ -23,9 +23,9 @@ public class FoodDao implements Dao<Food, Integer> {
 
     /**
      * find all foods from the database
-     * 
+     *
      * @return a list of all the foods
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public List<Food> findAll() throws SQLException {
@@ -44,9 +44,9 @@ public class FoodDao implements Dao<Food, Integer> {
 
     /**
      * delete a food by its id
-     * 
+     *
      * @param key id of the food to be deleted
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public void delete(Integer key) throws SQLException {
@@ -67,10 +67,10 @@ public class FoodDao implements Dao<Food, Integer> {
 
     /**
      * save a new food or update an existing one
-     * 
+     *
      * @param f food to be saved or updated
      * @return the saved or updated food
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public Food saveOrUpdate(Food f) throws SQLException {
@@ -91,10 +91,10 @@ public class FoodDao implements Dao<Food, Integer> {
 
     /**
      * find a food by its name
-     * 
+     *
      * @param name food name to be searched
      * @return a food with the name, null if not found
-     * @throws SQLException 
+     * @throws SQLException
      */
     public Food findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
@@ -112,7 +112,6 @@ public class FoodDao implements Dao<Food, Integer> {
         }
     }
 
-    
 //    public List<Food> findByUserId(Integer id) throws SQLException {
 //        List<Food> ainekset = new ArrayList<>();
 //
@@ -130,13 +129,12 @@ public class FoodDao implements Dao<Food, Integer> {
 //        }
 //        return ainekset;
 //    }
-
     /**
      * find a food by its id
-     * 
+     *
      * @param key food id
      * @return food with the id, null if not found
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public Food findOne(Integer key) throws SQLException {

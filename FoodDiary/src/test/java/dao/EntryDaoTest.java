@@ -23,21 +23,22 @@ import static org.junit.Assert.*;
  * @author sperande
  */
 public class EntryDaoTest {
+
     Database database;
     EntryDao entryDao;
     Entry entry;
-    
+
     public EntryDaoTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
         database = new Database("jdbc:sqlite:fooddiaryTest.db");
@@ -46,17 +47,17 @@ public class EntryDaoTest {
         entryDao = new EntryDao(database);
         entry = new Entry(1, 2, 3, new Date(1), 1.0);
     }
-    
+
     @After
     public void tearDown() throws SQLException {
         database.kill();
     }
 
     @Test
-    public void saveOrUpdateWorks() throws SQLException{
+    public void saveOrUpdateWorks() throws SQLException {
         assertEquals(entry, entryDao.saveOrUpdate(entry));
     }
-    
+
     @Test
     public void findAllFindsAll() throws SQLException {
         Entry e = new Entry(1, 2, 3, new Date(1), 1.0);
@@ -76,5 +77,5 @@ public class EntryDaoTest {
         }
 
     }
-    
+
 }

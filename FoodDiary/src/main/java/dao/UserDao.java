@@ -23,10 +23,10 @@ public class UserDao implements Dao<User, Integer> {
 
     /**
      * find a user by the users id
-     * 
+     *
      * @param key users id
      * @return user with the id, null if not found
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public User findOne(Integer key) throws SQLException {
@@ -50,9 +50,9 @@ public class UserDao implements Dao<User, Integer> {
 
     /**
      * find all users
-     * 
+     *
      * @return a list of all users
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public List<User> findAll() throws SQLException {
@@ -69,9 +69,9 @@ public class UserDao implements Dao<User, Integer> {
 
     /**
      * delete a user by a user id
-     * 
+     *
      * @param key user id
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public void delete(Integer key) throws SQLException {
@@ -93,10 +93,10 @@ public class UserDao implements Dao<User, Integer> {
 
     /**
      * save a new user or update a user
-     * 
+     *
      * @param u user to be saved or updated
      * @return the user to be saved or updated
-     * @throws SQLException 
+     * @throws SQLException
      */
     @Override
     public User saveOrUpdate(User u) throws SQLException {
@@ -117,10 +117,10 @@ public class UserDao implements Dao<User, Integer> {
 
     /**
      * find a user by the username
-     * 
+     *
      * @param name users username
      * @return user with the username, null if not found
-     * @throws SQLException 
+     * @throws SQLException
      */
     public User findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
@@ -138,10 +138,10 @@ public class UserDao implements Dao<User, Integer> {
 
     /**
      * find users who have entered a specific food
-     * 
+     *
      * @param id id of the food
      * @return a list of users who have entered the food
-     * @throws SQLException 
+     * @throws SQLException
      */
     //OPTIONAL
     //to find out most popular foods, for example

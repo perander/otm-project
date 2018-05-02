@@ -15,7 +15,7 @@ public class Database {
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(databaseAddress);
     }
-    
+
     public void init() throws SQLException {
         List<String> stats = initStatements();
 
@@ -27,8 +27,8 @@ public class Database {
         }
 
     }
-    
-    public void kill() throws SQLException{
+
+    public void kill() throws SQLException {
         List<String> stats = killStatements();
 
         Connection conn = getConnection();
@@ -37,7 +37,7 @@ public class Database {
         for (String stat : stats) {
             st.executeUpdate(stat);
         }
-        
+
         conn.close();
     }
 
@@ -54,7 +54,7 @@ public class Database {
 
         return lista;
     }
-    
+
     private List<String> killStatements() {
         ArrayList<String> lista = new ArrayList<>();
 

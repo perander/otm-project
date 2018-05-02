@@ -17,34 +17,34 @@ import static org.junit.Assert.*;
  * @author sperande
  */
 public class FoodTest {
-    
+
     public FoodTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
 
     @Test
-    public void ConstructorWorks(){
+    public void ConstructorWorks() {
         Food f = new Food("new", 1.0, 2.0, 3.0);
         assertEquals("new", f.getName());
         assertEquals(1.0, f.getCarb(), 0);
         assertEquals(2.0, f.getProtein(), 0);
         assertEquals(3.0, f.getFat(), 0);
-       
+
     }
 
     @Test
@@ -54,5 +54,5 @@ public class FoodTest {
 
         assertTrue(f.equals(f2));
     }
-    
+
 }
