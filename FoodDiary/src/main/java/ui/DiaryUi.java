@@ -60,7 +60,7 @@ public class DiaryUi extends Application {
     }
 
     public Node createFoodNode(Food food) {
-        HBox box = new HBox(10);
+        HBox box = new HBox(50);
         Label label = new Label(food.getName() + ", carbohydrates: " + food.getCarb() +
                 "g, protein: " + food.getProtein() + "g, fat: " + food.getFat() + "g");
         label.setMinHeight(28);
@@ -226,7 +226,7 @@ public class DiaryUi extends Application {
                 fatPane, createFood);
 
         foodNodes = new VBox(10);
-        foodNodes.setMaxWidth(280);
+        foodNodes.setMaxWidth(500);
         foodNodes.setMinWidth(280);
         redrawFoodlist();
 
