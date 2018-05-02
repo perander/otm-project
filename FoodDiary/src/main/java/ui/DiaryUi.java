@@ -61,7 +61,8 @@ public class DiaryUi extends Application {
 
     public Node createFoodNode(Food food) {
         HBox box = new HBox(10);
-        Label label = new Label(food.getName());
+        Label label = new Label(food.getName() + ", carbohydrates: " + food.getCarb() +
+                "g, protein: " + food.getProtein() + "g, fat: " + food.getFat() + "g");
         label.setMinHeight(28);
 
         Region spacer = new Region();
