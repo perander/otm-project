@@ -21,6 +21,13 @@ public class EntryDao implements Dao<Entry, Integer> {
         this.database = database;
     }
 
+    /**
+     * find one entry by its id
+     * 
+     * @param key id of the entry
+     * @return entry corresponding to the id, null if not found
+     * @throws SQLException 
+     */
     @Override
     public Entry findOne(Integer key) throws SQLException {
         Entry e;
@@ -42,6 +49,12 @@ public class EntryDao implements Dao<Entry, Integer> {
         return e;
     }
 
+    /**
+     * find all entries from the database
+     * 
+     * @return all the entries
+     * @throws SQLException 
+     */
     @Override
     public List<Entry> findAll() throws SQLException {
         List<Entry> entries = new ArrayList<>();
@@ -56,6 +69,13 @@ public class EntryDao implements Dao<Entry, Integer> {
         return entries;
     }
 
+    
+    /**
+     * delete an entry by its id
+     * 
+     * @param key id of the entry to be deleted
+     * @throws SQLException 
+     */
     @Override
     public void delete(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
@@ -68,6 +88,13 @@ public class EntryDao implements Dao<Entry, Integer> {
         }
     }
 
+    /**
+     * save or update a new or an existing entry
+     * 
+     * @param e a new entry to be added, or a new entry to be updated
+     * @return saved or updated entry
+     * @throws SQLException 
+     */
     @Override
     public Entry saveOrUpdate(Entry e) throws SQLException {
 
@@ -85,6 +112,14 @@ public class EntryDao implements Dao<Entry, Integer> {
 
         return e;
     }
+    
+    /**
+     * find entries entered by a user by users id
+     * 
+     * @param id users id
+     * @return list of entries entered by the user
+     * @throws SQLException 
+     */
 
     //users collection
     public List<Entry> findByUserId(Integer id) throws SQLException {
@@ -116,6 +151,14 @@ public class EntryDao implements Dao<Entry, Integer> {
         }
     }
 
+    /**
+     * find entries according to the foods added
+     * 
+     * @param id id of the food that is searched
+     * @return list of the entries that have the searched food
+     * @throws SQLException 
+     */
+    
     public List<Entry> findByFoodId(Integer id) throws SQLException {
         List<Entry> entries = new ArrayList<>();
 

@@ -21,6 +21,13 @@ public class UserDao implements Dao<User, Integer> {
         this.database = database;
     }
 
+    /**
+     * find a user by the users id
+     * 
+     * @param key users id
+     * @return user with the id, null if not found
+     * @throws SQLException 
+     */
     @Override
     public User findOne(Integer key) throws SQLException {
         User u;
@@ -41,19 +48,31 @@ public class UserDao implements Dao<User, Integer> {
         return u;
     }
 
+    /**
+     * find all users
+     * 
+     * @return a list of all users
+     * @throws SQLException 
+     */
     @Override
     public List<User> findAll() throws SQLException {
-        List<User> annokset = new ArrayList<>();
+        List<User> users = new ArrayList<>();
 
         try (Connection conn = database.getConnection();
                 ResultSet rs = conn.prepareStatement("SELECT id, name FROM User").executeQuery()) {
             while (rs.next()) {
-                annokset.add(new User(rs.getInt("id"), rs.getString("name")));
+                users.add(new User(rs.getInt("id"), rs.getString("name")));
             }
         }
-        return annokset;
+        return users;
     }
 
+    /**
+     * delete a user by a user id
+     * 
+     * @param key user id
+     * @throws SQLException 
+     */
     @Override
     public void delete(Integer key) throws SQLException {
         try (Connection conn = database.getConnection()) {
@@ -72,6 +91,13 @@ public class UserDao implements Dao<User, Integer> {
 
     }
 
+    /**
+     * save a new user or update a user
+     * 
+     * @param u user to be saved or updated
+     * @return the user to be saved or updated
+     * @throws SQLException 
+     */
     @Override
     public User saveOrUpdate(User u) throws SQLException {
         User byName = findByName(u.getUsername());
@@ -89,6 +115,13 @@ public class UserDao implements Dao<User, Integer> {
         return findByName(u.getUsername());
     }
 
+    /**
+     * find a user by the username
+     * 
+     * @param name users username
+     * @return user with the username, null if not found
+     * @throws SQLException 
+     */
     public User findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement("SELECT id, name FROM User WHERE name = ?");
@@ -103,6 +136,13 @@ public class UserDao implements Dao<User, Integer> {
         }
     }
 
+    /**
+     * find users who have entered a specific food
+     * 
+     * @param id id of the food
+     * @return a list of users who have entered the food
+     * @throws SQLException 
+     */
     //OPTIONAL
     //to find out most popular foods, for example
     public List<User> findByFoodId(Integer id) throws SQLException {

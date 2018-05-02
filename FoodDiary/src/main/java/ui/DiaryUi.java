@@ -47,6 +47,10 @@ public class DiaryUi extends Application {
 
     private Label menuLabel = new Label();
 
+    /**
+     * initialise the database and data access object classes
+     * @throws Exception 
+     */
     @Override
     public void init() throws Exception {
 
@@ -59,6 +63,11 @@ public class DiaryUi extends Application {
         diary = new Diary(foodDao, userDao, entryDao);
     }
 
+    /**
+     * create an line with the entered food and its nutritional value
+     * @param food food to be displayed
+     * @return the view with a food name and amount of carbohydrates, protein and fat
+     */
     public Node createFoodNode(Food food) {
         HBox box = new HBox(50);
         Label label = new Label(food.getName() + ", carbohydrates: " + food.getCarb() +
@@ -73,6 +82,11 @@ public class DiaryUi extends Application {
         return box;
     }
 
+    /**
+     * update the food list when a new one is added
+     * 
+     * @throws SQLException 
+     */
     public void redrawFoodlist() throws SQLException {
         foodNodes.getChildren().clear();
 
@@ -83,6 +97,11 @@ public class DiaryUi extends Application {
         });
     }
 
+    /**
+     * manage the scenes: login, creating a new user, displaying the food list
+     * @param stage
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -270,12 +289,16 @@ public class DiaryUi extends Application {
         });
     }
 
+    /**
+     * displaying a message when closing
+     */
     @Override
     public void stop() {
         // tee lopetustoimenpiteet täällä
         System.out.println("thank you, welcome again");
     }
 
+    
     public static void main(String[] args) {
         launch(args);
     }
