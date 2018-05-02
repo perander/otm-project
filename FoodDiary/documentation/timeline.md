@@ -6,3 +6,5 @@ Date | Hours | Activity
 17.4.| 1 | Creating class diagrams, implementing checkstyle
 22.4.| 1-2 | Adding the possibility to list foods
 23.4.| 5 | Packaging; first release; database initialised by the application
+29.4.| 3 | Trying to implement an api to search for foods
+2.5. | 6 | Writing javadoc, tests, possibility to display and add nutritional information
