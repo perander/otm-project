@@ -23,7 +23,7 @@ Completed functionality to date:
 
 ## Releases
 
-[Week 5](https://github.com/perander/otm-project/releases/tag/week5)
+[All releases](https://github.com/perander/otm-project/releases)
 
 ## Command line commands
 
