@@ -7,6 +7,9 @@ Completed functionality to date:
 - possibility to create a username
   - username is saved to a database
 
+- possibility to create a food with its nutritional information
+
+
 
 
 ## Documentation
