@@ -181,7 +181,7 @@ public class DiaryUi extends Application {
         // main scene
         ScrollPane foodScollbar = new ScrollPane();
         BorderPane mainPane = new BorderPane(foodScollbar);
-        foodScene = new Scene(mainPane, 300, 250);
+        foodScene = new Scene(mainPane, 700, 600);
 
         HBox menuPane = new HBox(10);
         Region menuSpacer = new Region();
@@ -194,12 +194,35 @@ public class DiaryUi extends Application {
             stage.setScene(loginScene);
         });
 
-        HBox createForm = new HBox(10);
-        Button createTodo = new Button("create");
+        VBox createForm = new VBox(50);
+        Button createFood = new Button("add");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
-        TextField newFoodInput = new TextField();
-        createForm.getChildren().addAll(newFoodInput, spacer, createTodo);
+        
+        VBox namePane = new VBox(5);
+        Label nameLabel = new Label("food name");
+        TextField nameInput = new TextField();
+        namePane.getChildren().addAll(nameLabel, nameInput);
+        
+        VBox carbPane = new VBox(5);
+        Label carbLabel = new Label("carbohydrates");
+        TextField carbInput = new TextField();
+        carbPane.getChildren().addAll(carbLabel, carbInput);
+        
+        VBox proteinPane = new VBox(5);
+        Label proteinLabel = new Label("protein");
+        TextField proteinInput = new TextField();
+        proteinPane.getChildren().addAll(proteinLabel, proteinInput);
+        
+        VBox fatPane = new VBox(5);
+        Label fatLabel = new Label("fat");
+        TextField fatInput = new TextField();
+        fatPane.getChildren().addAll(fatLabel, fatInput);
+        
+        Label title = new Label("Add a new food");
+        
+        createForm.getChildren().addAll(title, namePane, carbPane, proteinPane,
+                fatPane, createFood);
 
         foodNodes = new VBox(10);
         foodNodes.setMaxWidth(280);
@@ -207,17 +230,24 @@ public class DiaryUi extends Application {
         redrawFoodlist();
 
         foodScollbar.setContent(foodNodes);
-        mainPane.setBottom(createForm);
+        mainPane.setRight(createForm);
         mainPane.setTop(menuPane);
 
-        createTodo.setOnAction(e -> {
-            Food f = new Food(newFoodInput.getText(), 0.0, 0.0, 0.0);
+        createFood.setOnAction(e -> {
+            Food f = new Food(nameInput.getText(), 
+                    Double.parseDouble(carbInput.getText()), 
+                    Double.parseDouble(proteinInput.getText()), 
+                    Double.parseDouble(fatInput.getText()));
             try {
                 diary.addFood(f);
             } catch (SQLException ex) {
                 Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
             }
-            newFoodInput.setText("");
+            nameInput.setText("");
+            carbInput.setText("");
+            proteinInput.setText("");
+            fatInput.setText("");
+            
             try {
                 redrawFoodlist();
             } catch (SQLException ex) {
