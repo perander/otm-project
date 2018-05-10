@@ -5,6 +5,7 @@
  */
 package domain;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -19,13 +20,17 @@ public class Food {
     private double carb;
     private double protein;
     private double fat;
+    private double amount;
+    private LocalDate date;
 
-    public Food(Integer userId, String name, double carb, double protein, double fat) {
+    public Food(Integer userId, String name, double carb, double protein, double fat, double amount, LocalDate date) {
         this.userId = userId;
         this.name = name;
         this.carb = carb;
         this.protein = protein;
         this.fat = fat;
+        this.amount = amount;
+        this.date = LocalDate.now();
     }
 
     public Integer getUserId() {
@@ -52,6 +57,14 @@ public class Food {
         return fat;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
