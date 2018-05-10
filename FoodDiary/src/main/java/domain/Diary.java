@@ -50,27 +50,6 @@ public class Diary {
         return true;
     }
 
-    //only adds a food with a name
-//    public boolean addFood(String name){
-//        Food f = new Food(name, 0.0, 0.0, 0.0);
-//        try {
-//            foodDao.saveOrUpdate(f);
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//        return true;
-//    }
-//    
-//    //adds a food with nutritional value
-//    public boolean addFoodTotal(String name, Double carb, Double protein, Double fat) {
-//        Food f = new Food(name, carb, protein, fat);
-//        try {
-//            foodDao.saveOrUpdate(f);
-//        } catch (Exception ex) {
-//            return false;
-//        }
-//        return true;
-//    }
     /**
      * listing all the foods
      *
@@ -78,8 +57,9 @@ public class Diary {
      * @throws SQLException
      */
     //returns ALL the foods -> should be an entry list
-    public List<Food> getUsersCollection() throws SQLException {
-        return foodDao.findAll();
+    public List<Food> getUsersCollection(User user) throws SQLException {
+        System.out.println("user: " + user.getId() + ", " + user.getUsername());
+        return foodDao.findByUserId(user.getId());
     }
 
     /**

@@ -32,10 +32,10 @@ public class FoodDao implements Dao<Food, Integer> {
         List<Food> foods = new ArrayList<>();
 
         try (Connection conn = database.getConnection();
-                ResultSet rs = conn.prepareStatement("SELECT id, name, carb, protein, fat "
+                ResultSet rs = conn.prepareStatement("SELECT id, userId, name, carb, protein, fat "
                         + "FROM Food").executeQuery()) {
             while (rs.next()) {
-                foods.add(new Food(rs.getString("name"), rs.getDouble("carb"),
+                foods.add(new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                         rs.getDouble("protein"), rs.getDouble("fat")));
             }
         }
@@ -81,14 +81,54 @@ public class FoodDao implements Dao<Food, Integer> {
         }
 
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO Food (name) VALUES (?)");
-            stmt.setString(1, f.getName());
+            PreparedStatement stmt = conn.prepareStatement(
+                    "INSERT INTO Food (userId, name, carb, protein, fat) "
+                            + "VALUES (?, ?, ?, ?, ?)");
+            stmt.setInt(1, f.getUserId());
+            stmt.setString(2, f.getName());
+            stmt.setDouble(3, f.getCarb());
+            stmt.setDouble(4, f.getProtein());
+            stmt.setDouble(5, f.getFat());
             stmt.executeUpdate();
         }
 
         return findByName(f.getName());
     }
 
+    /**
+     * finds all food added by a user by the username
+     * @param id users id
+     * @return list of foods added by the user
+     * @throws SQLException 
+     */
+    public List<Food> findByUserId(Integer id) throws SQLException {
+        
+        List<Food> foods = new ArrayList<>();
+
+        try (Connection conn = database.getConnection()) {
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT id, userId, name, carb, protein, fat "
+                    + "FROM Food WHERE userId = ?");
+            stmt.setInt(1, id);
+            
+            ResultSet rs = stmt.executeQuery();
+            boolean hasOne = rs.next();
+            if (!hasOne) {
+                return null;
+            }
+            while (rs.next()) {
+                Food f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
+                        rs.getDouble("protein"), rs.getDouble("fat"));
+                
+                foods.add(f);
+            }
+
+            rs.close();
+            stmt.close();
+            return foods;
+        }
+    }
+    
     /**
      * find a food by its name
      *
@@ -98,7 +138,7 @@ public class FoodDao implements Dao<Food, Integer> {
      */
     public Food findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT name, carb, protein, fat"
+            PreparedStatement stmt = conn.prepareStatement("SELECT userId, name, carb, protein, fat"
                     + " FROM Food WHERE name = ?");
             stmt.setString(1, name);
 
@@ -107,28 +147,11 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
 
-            return new Food(rs.getString("name"), rs.getDouble("carb"),
+            return new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                     rs.getDouble("protein"), rs.getDouble("fat"));
         }
     }
 
-//    public List<Food> findByUserId(Integer id) throws SQLException {
-//        List<Food> ainekset = new ArrayList<>();
-//
-//        try (Connection conn = database.getConnection();
-//                ResultSet rs = conn.prepareStatement("SELECT DISTINCT Food.id, Food.name, "
-//                        + "Food.carb, Food.protein, Food.fat "
-//                        + "FROM Food, User, Entry "
-//                        + "WHERE User.id = " + id + " "
-//                        + "AND User.id = Entry.user_id "
-//                        + "AND Food.id = Entry.food_id").executeQuery()) {
-//            while (rs.next()) {
-//                ainekset.add(new Food(rs.getString("name"), rs.getDouble("carb"),
-//                        rs.getDouble("protein"), rs.getDouble("fat")));
-//            }
-//        }
-//        return ainekset;
-//    }
     /**
      * find a food by its id
      *
@@ -147,7 +170,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
 
-            f = new Food(rs.getString("name"), rs.getDouble("carb"),
+            f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                     rs.getDouble("protein"), rs.getDouble("fat"));
             rs.close();
             stmt.close();

@@ -10,7 +10,9 @@ import dao.EntryDao;
 import dao.FoodDao;
 import dao.UserDao;
 import domain.Diary;
+import domain.Entry;
 import domain.Food;
+import domain.User;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -43,12 +45,13 @@ public class DiaryUi extends Application {
     private Scene newUserScene;
     private Scene loginScene;
 
+    private User userLoggedIn;
     private VBox foodNodes;
 
     private Label menuLabel = new Label();
 
     /**
-     * initialise the database and data access object classes
+     * initialize the database and data access object classes
      *
      * @throws Exception
      */
@@ -60,8 +63,12 @@ public class DiaryUi extends Application {
 
         UserDao userDao = new UserDao(database);
         FoodDao foodDao = new FoodDao(database);
+        
+        //entrydao not needed?
         EntryDao entryDao = new EntryDao(database);
         diary = new Diary(foodDao, userDao, entryDao);
+        userLoggedIn = new User(1, "hello");
+        
     }
 
     /**
@@ -72,6 +79,7 @@ public class DiaryUi extends Application {
      * and fat
      */
     public Node createFoodNode(Food food) {
+        
         HBox box = new HBox(50);
         Label label = new Label(food.getName() + ", carbohydrates: " + food.getCarb()
                 + "g, protein: " + food.getProtein() + "g, fat: " + food.getFat() + "g");
@@ -93,11 +101,15 @@ public class DiaryUi extends Application {
     public void redrawFoodlist() throws SQLException {
         foodNodes.getChildren().clear();
 
-        //change to entries
-        List<Food> foods = diary.getUsersCollection();
-        foods.forEach(food -> {
-            foodNodes.getChildren().add(createFoodNode(food));
-        });
+        System.out.println("user: " + userLoggedIn.getUsername() + ", " + userLoggedIn.getId());
+        List<Food> foods = diary.getUsersCollection(userLoggedIn);
+        
+        if(foods != null){
+            foods.forEach(food -> {
+                foodNodes.getChildren().add(createFoodNode(food));
+            });
+        }
+        
     }
 
     /**
@@ -127,6 +139,7 @@ public class DiaryUi extends Application {
             try {
                 if (diary.login(username)) {
                     loginMessage.setText("logging in successful");
+                    userLoggedIn = diary.getLoggedUser();
                     loginMessage.setTextFill(Color.GREEN);
                     redrawFoodlist();
                     stage.setScene(foodScene);
@@ -255,7 +268,7 @@ public class DiaryUi extends Application {
         mainPane.setTop(menuPane);
 
         createFood.setOnAction(e -> {
-            Food f = new Food(nameInput.getText(),
+            Food f = new Food(userLoggedIn.getId(), nameInput.getText(),
                     Double.parseDouble(carbInput.getText()),
                     Double.parseDouble(proteinInput.getText()),
                     Double.parseDouble(fatInput.getText()));

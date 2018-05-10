@@ -6,6 +6,7 @@
 package dao;
 
 import domain.Entry;
+import domain.Food;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -120,14 +121,14 @@ public class EntryDao implements Dao<Entry, Integer> {
      * @throws SQLException
      */
     //users collection
-    public List<Entry> findByUserId(Integer id) throws SQLException {
-        List<Entry> entries = new ArrayList<>();
+    public List<Food> findByUserId(Integer id) throws SQLException {
+        List<Food> entries = new ArrayList<>();
 
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT DISTINCT Entry.id, "
-                    + "Entry.user_id, Entry.food_id, Entry.date, Entry.amount "
+            PreparedStatement stmt = conn.prepareStatement(
+                    "SELECT DISTINCT Food.id, Food.UserId, Food.name, Food.carb, Food.protein, Food.fat "
                     + "FROM Food, Entry, User "
-                    + "WHERE Food.id = ? "
+                    + "WHERE User.id = ? "
                     + "AND User.id = Entry.user_id "
                     + "AND Food.id = Entry.food_id;");
             stmt.setInt(1, id);
@@ -138,9 +139,13 @@ public class EntryDao implements Dao<Entry, Integer> {
                 return null;
             }
             while (rs.next()) {
-                Entry e = new Entry(rs.getInt("id"), id, rs.getInt("food_id"),
-                        rs.getDate("date"), rs.getDouble("amount"));
-                entries.add(e);
+                Food f = new Food(rs.getInt("user")rs.getString("name"), rs.getDouble("carb"),
+                        rs.getDouble("protein"), rs.getDouble("fat"));
+                
+                
+//                Entry e = new Entry(rs.getInt("id"), id, rs.getInt("food_id"),
+//                        rs.getDate("date"), rs.getDouble("amount"));
+//                entries.add(e);
             }
 
             rs.close();
@@ -149,8 +154,8 @@ public class EntryDao implements Dao<Entry, Integer> {
         }
     }
 
-    /**
-     * find entries according to the foods added
+    
+    /** find entries according to the foods added
      *
      * @param id id of the food that is searched
      * @return list of the entries that have the searched food

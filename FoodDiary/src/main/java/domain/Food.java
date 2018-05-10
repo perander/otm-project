@@ -14,18 +14,24 @@ import java.util.Objects;
 public class Food {
 
     private int id;
+    private int userId;
     private String name;
     private double carb;
     private double protein;
     private double fat;
 
-    public Food(String name, double carb, double protein, double fat) {
+    public Food(Integer userId, String name, double carb, double protein, double fat) {
+        this.userId = userId;
         this.name = name;
         this.carb = carb;
         this.protein = protein;
         this.fat = fat;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+    
     public int getId() {
         return id;
     }
