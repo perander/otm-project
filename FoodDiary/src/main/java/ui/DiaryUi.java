@@ -106,6 +106,12 @@ public class DiaryUi extends Application {
         return box;
     }
 
+    /**
+     * creates a node with the current date
+     *
+     * @param date date to be displayed in the node
+     * @return node with the current date
+     */
     public Node dateStamp(LocalDate date) {
 
         HBox box = new HBox(50);
@@ -131,7 +137,9 @@ public class DiaryUi extends Application {
 
         List<Food> foods = diary.getUsersCollection(userLoggedIn);
 
-        if (foods != null) {
+        
+        //doesn't keep the old date in place
+        if (foods != null && !foods.isEmpty()) {
             foodNodes.getChildren().add(dateStamp(foods.get(0).getDate()));
             int size = foods.size() - 1;
             for (int i = size; i >= 0; i--) {
@@ -229,6 +237,9 @@ public class DiaryUi extends Application {
         Button createNewUserButton = new Button("create");
         createNewUserButton.setPadding(new Insets(10));
 
+        Button goBackButton = new Button("back to login");
+        createNewUserButton.setPadding(new Insets(10));
+
         createNewUserButton.setOnAction(e -> {
             String username = newUsernameInput.getText();
             String password = newPasswordInput.getText();
@@ -257,7 +268,12 @@ public class DiaryUi extends Application {
 
         });
 
-        newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane, newPasswordPane, createNewUserButton);
+        goBackButton.setOnAction(e -> {
+            stage.setScene(loginScene);
+        });
+
+        newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane,
+                newPasswordPane, createNewUserButton, goBackButton);
 
         newUserScene = new Scene(newUserPane, 300, 250);
 
@@ -315,7 +331,6 @@ public class DiaryUi extends Application {
         foodNodes = new VBox(10);
         foodNodes.setMaxWidth(500);
         foodNodes.setMinWidth(280);
-        redrawFoodlist();
 
         foodScollbar.setContent(foodNodes);
         mainPane.setRight(createForm);

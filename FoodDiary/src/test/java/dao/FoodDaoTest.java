@@ -6,7 +6,9 @@
 package dao;
 
 import domain.Food;
+import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,11 +43,14 @@ public class FoodDaoTest {
 
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
-        database = new Database("jdbc:sqlite:fooddiaryTest.db");
+        File dbDirectory = new File("dbTest");
+        dbDirectory.mkdir();
+
+        Database database = new Database("jdbc:sqlite:db" + File.separator + "fooddiaryTest.db");
         database.init();
 
         foodDao = new FoodDao(database);
-        food = new Food("uusi", 0.0, 0.0, 0.0);
+        food = new Food(1, "uusi", 0.0, 0.0, 0.0, 20.0, LocalDate.now());
     }
 
     @After
@@ -66,8 +71,8 @@ public class FoodDaoTest {
 
     @Test
     public void findAllFindsAll() throws SQLException {
-        Food first = new Food("first", 0.0, 0.0, 0.0);
-        Food second = new Food("another", 0.0, 0.0, 0.0);
+        Food first = new Food(1, "first", 0.0, 0.0, 0.0, 0.0, );
+        Food second = new Food(1, "another", 0.0, 0.0, 0.0);
         foodDao.saveOrUpdate(first);
         foodDao.saveOrUpdate(second);
 
