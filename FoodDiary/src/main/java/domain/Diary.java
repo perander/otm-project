@@ -58,7 +58,6 @@ public class Diary {
      */
     //returns ALL the foods -> should be an entry list
     public List<Food> getUsersCollection(User user) throws SQLException {
-        System.out.println("user: " + user.getId() + ", " + user.getUsername());
         return foodDao.findByUserId(user.getId());
     }
 
@@ -69,9 +68,9 @@ public class Diary {
      *
      * @return true if username exists, else false
      */
-    public boolean login(String username) throws SQLException {
+    public boolean login(String username, String password) throws SQLException {
         User user = userDao.findByName(username);
-        if (user == null) {
+        if (user == null || !(user.getPassword().equals(password))) {
             return false;
         }
 
@@ -103,12 +102,13 @@ public class Diary {
      *
      * @return true if sign up successful, else false
      */
-    public boolean createUser(String username) throws SQLException {
+    public boolean createUser(String username, String password) throws SQLException {
         if (userDao.findByName(username) != null) {
             return false;
         }
 
-        User user = new User(username);
+        User user = new User(username, password);
+        
         try {
             userDao.saveOrUpdate(user);
         } catch (Exception e) {

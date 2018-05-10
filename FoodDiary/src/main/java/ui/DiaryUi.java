@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -67,7 +68,7 @@ public class DiaryUi extends Application {
         //entrydao not needed?
         EntryDao entryDao = new EntryDao(database);
         diary = new Diary(foodDao, userDao, entryDao);
-        userLoggedIn = new User(1, "hello");
+        userLoggedIn = new User(1, "hello", "salasana");
         
     }
 
@@ -128,22 +129,30 @@ public class DiaryUi extends Application {
         Label loginLabel = new Label("username");
         TextField usernameInput = new TextField();
 
+        HBox passwordPane = new HBox(10);
+        Label passwordLabel = new Label("password");
+        PasswordField passwordInput = new PasswordField();
+        
         inputPane.getChildren().addAll(loginLabel, usernameInput);
+        passwordPane.getChildren().addAll(passwordLabel, passwordInput);
+        
         Label loginMessage = new Label();
 
         Button loginButton = new Button("login");
         Button createButton = new Button("create new user");
         loginButton.setOnAction(e -> {
             String username = usernameInput.getText();
+            String password = passwordInput.getText();
             menuLabel.setText(username + " logged in");
             try {
-                if (diary.login(username)) {
+                if (diary.login(username, password)) {
                     loginMessage.setText("logging in successful");
                     userLoggedIn = diary.getLoggedUser();
                     loginMessage.setTextFill(Color.GREEN);
                     redrawFoodlist();
                     stage.setScene(foodScene);
                     usernameInput.setText("");
+                    passwordInput.setText("");
                 } else {
                     loginMessage.setText("user does not exist");
                     loginMessage.setTextFill(Color.RED);
@@ -155,10 +164,11 @@ public class DiaryUi extends Application {
 
         createButton.setOnAction(e -> {
             usernameInput.setText("");
+            passwordInput.setText("");
             stage.setScene(newUserScene);
         });
 
-        loginPane.getChildren().addAll(loginMessage, inputPane, loginButton, createButton);
+        loginPane.getChildren().addAll(loginMessage, inputPane, passwordPane, loginButton, createButton);
 
         loginScene = new Scene(loginPane, 300, 250);
 
@@ -172,27 +182,31 @@ public class DiaryUi extends Application {
         newUsernameLabel.setPrefWidth(100);
         newUsernamePane.getChildren().addAll(newUsernameLabel, newUsernameInput);
 
-//        HBox newNamePane = new HBox(10);
-//        newNamePane.setPadding(new Insets(10));
-//        TextField newNameInput = new TextField();
-//        Label newNameLabel = new Label("name");
-//        newNameLabel.setPrefWidth(100);
-//        newNamePane.getChildren().addAll(newNameLabel, newNameInput);
+        HBox newPasswordPane = new HBox(10);
+        newPasswordPane.setPadding(new Insets(10));
+        PasswordField newPasswordInput = new PasswordField();
+        Label newPasswordLabel = new Label("password");
+        newPasswordLabel.setPrefWidth(100);
+        newPasswordPane.getChildren().addAll(newPasswordLabel, newPasswordInput);
         Label userCreationMessage = new Label();
+        
 
         Button createNewUserButton = new Button("create");
         createNewUserButton.setPadding(new Insets(10));
 
         createNewUserButton.setOnAction(e -> {
             String username = newUsernameInput.getText();
-//            String name = newNameInput.getText();
+            String password = newPasswordInput.getText();
 
             if (username.length() < 3) {
-                userCreationMessage.setText("username or name too short");
+                userCreationMessage.setText("username too short");
+                userCreationMessage.setTextFill(Color.RED);
+            } else if (password.length() < 3){
+                userCreationMessage.setText("password too short");
                 userCreationMessage.setTextFill(Color.RED);
             } else {
                 try {
-                    if (diary.createUser(username)) {
+                    if (diary.createUser(username, password)) {
                         userCreationMessage.setText("");
                         loginMessage.setText("new user created");
                         loginMessage.setTextFill(Color.GREEN);
@@ -208,7 +222,7 @@ public class DiaryUi extends Application {
 
         });
 
-        newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane, createNewUserButton);
+        newUserPane.getChildren().addAll(userCreationMessage, newUsernamePane, newPasswordPane, createNewUserButton);
 
         newUserScene = new Scene(newUserPane, 300, 250);
 

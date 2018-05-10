@@ -44,13 +44,10 @@ public class Database {
 
     private List<String> initStatements() {
         ArrayList<String> lista = new ArrayList<>();
-
-        
-        
         
         lista.add("CREATE TABLE IF NOT EXISTS Food (id integer PRIMARY KEY, "
                 + "userId integer, name varchar(255), carb REAL, protein REAL, fat REAL);");
-        lista.add("CREATE TABLE IF NOT EXISTS User (id integer PRIMARY KEY, name varchar(255));");
+        lista.add("CREATE TABLE IF NOT EXISTS User (id integer PRIMARY KEY, name varchar(255), password varchar(255));");
         lista.add("CREATE TABLE IF NOT EXISTS Entry (id integer PRIMARY KEY, "
                 + "user_id integer, food_id integer, date Date, amount REAL, "
                 + "FOREIGN KEY (user_id) REFERENCES User (id), "

@@ -40,7 +40,7 @@ public class UserDao implements Dao<User, Integer> {
                 return null;
             }
 
-            u = new User(rs.getInt("id"), rs.getString("name"));
+            u = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"));
             rs.close();
             stmt.close();
         }
@@ -59,14 +59,17 @@ public class UserDao implements Dao<User, Integer> {
         List<User> users = new ArrayList<>();
 
         try (Connection conn = database.getConnection();
-                ResultSet rs = conn.prepareStatement("SELECT id, name FROM User").executeQuery()) {
+                ResultSet rs = conn.prepareStatement("SELECT * FROM User").executeQuery()) {
             while (rs.next()) {
-                users.add(new User(rs.getInt("id"), rs.getString("name")));
+                users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("password")));
             }
         }
         return users;
     }
 
+    
+    //NEVER USED
+    
     /**
      * delete a user by a user id
      *
@@ -81,7 +84,7 @@ public class UserDao implements Dao<User, Integer> {
             stmt.executeUpdate();
 
             //delete also users collection (all foods in the collection)
-            PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM Entry WHERE user_id = ?");
+            PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM Food WHERE UserId = ?");
             stmt2.setInt(1, key);
             stmt2.executeUpdate();
 
@@ -107,8 +110,10 @@ public class UserDao implements Dao<User, Integer> {
         }
 
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("INSERT INTO User (name) VALUES (?)");
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO User (name, password) VALUES (?, ?)");
             stmt.setString(1, u.getUsername());
+            stmt.setString(2, u.getPassword());
+            
             stmt.executeUpdate();
         }
 
@@ -124,7 +129,7 @@ public class UserDao implements Dao<User, Integer> {
      */
     public User findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT id, name FROM User WHERE name = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, name, password FROM User WHERE name = ?");
             stmt.setString(1, name);
 
             ResultSet result = stmt.executeQuery();
@@ -132,7 +137,7 @@ public class UserDao implements Dao<User, Integer> {
                 return null;
             }
 
-            return new User(result.getInt("id"), result.getString("name"));
+            return new User(result.getInt("id"), result.getString("name"), result.getString("password"));
         }
     }
 
@@ -145,21 +150,22 @@ public class UserDao implements Dao<User, Integer> {
      */
     //OPTIONAL
     //to find out most popular foods, for example
-    public List<User> findByFoodId(Integer id) throws SQLException {
-        List<User> users = new ArrayList<>();
-
-        try (Connection conn = database.getConnection();
-                ResultSet rs = conn.prepareStatement("SELECT User.id, User.name "
-                        + "FROM Food, User, AnnosRaakaAine "
-                        + "WHERE Food.id = " + id + " "
-                        + "AND Food.id = Entry.food_id "
-                        + "AND User.id = Entry.user_id").executeQuery()) {
-
-            while (rs.next()) {
-                users.add(new User(rs.getInt("id"), rs.getString("name")));
-            }
-        }
-        return users;
-    }
+//    public List<User> findByFoodId(Integer id) throws SQLException {
+//        List<User> users = new ArrayList<>();
+//
+//        try (Connection conn = database.getConnection();
+//                
+//                ResultSet rs = conn.prepareStatement("SELECT User.id, User.name "
+//                        + "FROM Food, User, AnnosRaakaAine "
+//                        + "WHERE Food.id = " + id + " "
+//                        + "AND Food.id = Entry.food_id "
+//                        + "AND User.id = Entry.user_id").executeQuery()) {
+//
+//            while (rs.next()) {
+//                users.add(new User(rs.getInt("id"), rs.getString("name")));
+//            }
+//        }
+//        return users;
+//    }
 
 }

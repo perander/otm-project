@@ -15,14 +15,17 @@ public class User {
 
     private int id;
     private String username;
+    private String password;
 
-    public User(String username) {
+    public User(String username, String password) {
         this.username = username;
+        this.password = password;
     }
 
-    public User(Integer id, String username) {
+    public User(Integer id, String username, String password) {
         this.id = id;
         this.username = username;
+        this.password = password;
     }
 
     public int getId() {
@@ -31,6 +34,16 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
     }
 
     @Override
@@ -45,10 +58,18 @@ public class User {
             return false;
         }
         final User other = (User) obj;
+        if (this.id != other.id) {
+            return false;
+        }
         if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
             return false;
         }
         return true;
     }
+
+    
 
 }
