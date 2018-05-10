@@ -43,7 +43,7 @@ public class Database {
 
     private List<String> initStatements() {
         ArrayList<String> lista = new ArrayList<>();
-        
+
         lista.add("CREATE TABLE IF NOT EXISTS Food (id integer PRIMARY KEY, "
                 + "userId integer, name varchar(255), carb REAL, protein REAL, fat REAL, amount REAL, date Date);");
         lista.add("CREATE TABLE IF NOT EXISTS User (id integer PRIMARY KEY, name varchar(255), password varchar(255));");

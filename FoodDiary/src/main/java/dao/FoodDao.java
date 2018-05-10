@@ -36,7 +36,7 @@ public class FoodDao implements Dao<Food, Integer> {
                         "SELECT * FROM Food").executeQuery()) {
             while (rs.next()) {
                 foods.add(new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
-                        rs.getDouble("protein"), rs.getDouble("fat"), 
+                        rs.getDouble("protein"), rs.getDouble("fat"),
                         rs.getDouble("amount"), rs.getDate("date").toLocalDate()));
             }
         }
@@ -75,16 +75,16 @@ public class FoodDao implements Dao<Food, Integer> {
      */
     @Override
     public Food saveOrUpdate(Food f) throws SQLException {
-        Food byName = findByName(f.getName());
-
-        if (byName != null) {
-            return byName;
-        }
+//        Food byName = findByName(f.getName());
+//
+//        if (byName != null) {
+//            return byName;
+//        }
 
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO Food (userId, name, carb, protein, fat, amount, date) "
-                            + "VALUES (?, ?, ?, ?, ?, ?, ?)");
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?)");
             stmt.setInt(1, f.getUserId());
             stmt.setString(2, f.getName());
             stmt.setDouble(3, f.getCarb());
@@ -92,7 +92,7 @@ public class FoodDao implements Dao<Food, Integer> {
             stmt.setDouble(5, f.getFat());
             stmt.setDouble(6, f.getAmount());
             stmt.setDate(7, java.sql.Date.valueOf(f.getDate()));
-            
+
             stmt.executeUpdate();
         }
 
@@ -101,20 +101,21 @@ public class FoodDao implements Dao<Food, Integer> {
 
     /**
      * finds all food added by a user by the username
+     *
      * @param id users id
      * @return list of foods added by the user
-     * @throws SQLException 
+     * @throws SQLException
      */
     public List<Food> findByUserId(Integer id) throws SQLException {
-        
+
         List<Food> foods = new ArrayList<>();
 
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                     "SELECT id, userId, name, carb, protein, fat, amount, date "
-                    + "FROM Food WHERE userId = ?");
+                    + "FROM Food WHERE userId = ? ORDER BY date DESC");
             stmt.setInt(1, id);
-            
+
             ResultSet rs = stmt.executeQuery();
             boolean hasOne = rs.next();
             if (!hasOne) {
@@ -122,9 +123,9 @@ public class FoodDao implements Dao<Food, Integer> {
             }
             while (rs.next()) {
                 Food f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
-                        rs.getDouble("protein"), rs.getDouble("fat"), 
+                        rs.getDouble("protein"), rs.getDouble("fat"),
                         rs.getDouble("amount"), rs.getDate("date").toLocalDate());
-                
+
                 foods.add(f);
             }
 
@@ -133,7 +134,7 @@ public class FoodDao implements Dao<Food, Integer> {
             return foods;
         }
     }
-    
+
     /**
      * find a food by its name
      *
@@ -153,7 +154,7 @@ public class FoodDao implements Dao<Food, Integer> {
             }
 
             return new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
-                    rs.getDouble("protein"), rs.getDouble("fat"), 
+                    rs.getDouble("protein"), rs.getDouble("fat"),
                     rs.getDouble("amount"), rs.getDate("date").toLocalDate());
         }
     }
@@ -177,7 +178,7 @@ public class FoodDao implements Dao<Food, Integer> {
             }
 
             f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
-                    rs.getDouble("protein"), rs.getDouble("fat"), 
+                    rs.getDouble("protein"), rs.getDouble("fat"),
                     rs.getDouble("amount"), rs.getDate("date").toLocalDate());
             rs.close();
             stmt.close();

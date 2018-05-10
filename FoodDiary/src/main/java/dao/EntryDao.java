@@ -139,10 +139,10 @@ public class EntryDao implements Dao<Entry, Integer> {
                 return null;
             }
             while (rs.next()) {
-                Food f = new Food(rs.getInt("user")rs.getString("name"), rs.getDouble("carb"),
-                        rs.getDouble("protein"), rs.getDouble("fat"));
-                
-                
+//                Food f = new Food(rs.getInt("user")rs.getString("name"), rs.getDouble("carb"),
+//                        rs.getDouble("protein"), rs.getDouble("fat"));
+//                
+//                
 //                Entry e = new Entry(rs.getInt("id"), id, rs.getInt("food_id"),
 //                        rs.getDate("date"), rs.getDouble("amount"));
 //                entries.add(e);
@@ -154,8 +154,8 @@ public class EntryDao implements Dao<Entry, Integer> {
         }
     }
 
-    
-    /** find entries according to the foods added
+    /**
+     * find entries according to the foods added
      *
      * @param id id of the food that is searched
      * @return list of the entries that have the searched food

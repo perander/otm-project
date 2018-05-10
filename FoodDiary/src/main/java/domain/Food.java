@@ -36,7 +36,7 @@ public class Food {
     public Integer getUserId() {
         return userId;
     }
-    
+
     public int getId() {
         return id;
     }
@@ -64,7 +64,7 @@ public class Food {
     public LocalDate getDate() {
         return date;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 3;

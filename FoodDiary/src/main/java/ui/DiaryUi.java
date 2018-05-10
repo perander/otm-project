@@ -13,6 +13,7 @@ import domain.Diary;
 import domain.Entry;
 import domain.Food;
 import domain.User;
+import java.io.File;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -52,7 +53,7 @@ public class DiaryUi extends Application {
     private VBox foodNodes;
 
     private Label menuLabel = new Label();
-    
+
     private static DecimalFormat df2 = new DecimalFormat(".##");
 
     /**
@@ -63,17 +64,20 @@ public class DiaryUi extends Application {
     @Override
     public void init() throws Exception {
 
-        Database database = new Database("jdbc:sqlite:fooddiary.db");
+        File dbDirectory = new File("db");
+        dbDirectory.mkdir();
+
+        Database database = new Database("jdbc:sqlite:db" + File.separator + "fooddiary.db");
         database.init();
 
         UserDao userDao = new UserDao(database);
         FoodDao foodDao = new FoodDao(database);
-        
+
         //entrydao not needed?
         EntryDao entryDao = new EntryDao(database);
         diary = new Diary(foodDao, userDao, entryDao);
         userLoggedIn = new User(1, "hello", "salasana");
-        
+
     }
 
     /**
@@ -84,14 +88,29 @@ public class DiaryUi extends Application {
      * and fat
      */
     public Node createFoodNode(Food food) {
-        
-        Double amount = food.getAmount()/100;
+
+        Double amount = food.getAmount() / 100;
         HBox box = new HBox(50);
-        Label label = new Label(food.getName() + ", " + food.getAmount() + 
-                "\n(carbohydrates: " + df2.format(food.getCarb()*amount) + "g, protein: " + 
-                df2.format(food.getProtein()*amount) + "g, fat: " + 
-                df2.format(food.getFat()*amount) + "g)");
-        
+        Label label = new Label(food.getName() + ", " + food.getAmount()
+                + " grams\n(carbohydrates: " + df2.format(food.getCarb() * amount) + "g, protein: "
+                + df2.format(food.getProtein() * amount) + "g, fat: "
+                + df2.format(food.getFat() * amount) + "g)");
+
+        label.setMinHeight(28);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        box.setPadding(new Insets(0, 5, 0, 5));
+
+        box.getChildren().addAll(label, spacer);
+        return box;
+    }
+
+    public Node dateStamp(LocalDate date) {
+
+        HBox box = new HBox(50);
+        Label label = new Label(date.toString());
+
         label.setMinHeight(28);
 
         Region spacer = new Region();
@@ -110,15 +129,24 @@ public class DiaryUi extends Application {
     public void redrawFoodlist() throws SQLException {
         foodNodes.getChildren().clear();
 
-        System.out.println("user: " + userLoggedIn.getUsername() + ", " + userLoggedIn.getId());
         List<Food> foods = diary.getUsersCollection(userLoggedIn);
-        
-        if(foods != null){
-            foods.forEach(food -> {
+
+        if (foods != null) {
+            foodNodes.getChildren().add(dateStamp(foods.get(0).getDate()));
+            int size = foods.size() - 1;
+            for (int i = size; i >= 0; i--) {
+                Food food = foods.get(i);
+                if (i < size) {
+                    Food prev = foods.get(i + 1);
+                    if (!food.getDate().equals(prev.getDate())) {
+                        foodNodes.getChildren().add(dateStamp(prev.getDate()));
+                    }
+                }
                 foodNodes.getChildren().add(createFoodNode(food));
-            });
+            }
+
         }
-        
+
     }
 
     /**
@@ -140,10 +168,10 @@ public class DiaryUi extends Application {
         HBox passwordPane = new HBox(10);
         Label passwordLabel = new Label("password");
         PasswordField passwordInput = new PasswordField();
-        
+
         inputPane.getChildren().addAll(loginLabel, usernameInput);
         passwordPane.getChildren().addAll(passwordLabel, passwordInput);
-        
+
         Label loginMessage = new Label();
 
         Button loginButton = new Button("login");
@@ -197,7 +225,6 @@ public class DiaryUi extends Application {
         newPasswordLabel.setPrefWidth(100);
         newPasswordPane.getChildren().addAll(newPasswordLabel, newPasswordInput);
         Label userCreationMessage = new Label();
-        
 
         Button createNewUserButton = new Button("create");
         createNewUserButton.setPadding(new Insets(10));
@@ -209,7 +236,7 @@ public class DiaryUi extends Application {
             if (username.length() < 3) {
                 userCreationMessage.setText("username too short");
                 userCreationMessage.setTextFill(Color.RED);
-            } else if (password.length() < 3){
+            } else if (password.length() < 3) {
                 userCreationMessage.setText("password too short");
                 userCreationMessage.setTextFill(Color.RED);
             } else {
@@ -251,36 +278,36 @@ public class DiaryUi extends Application {
         });
 
         VBox createForm = new VBox(50);
-        Button createFood = new Button("add");
+        Button createFood = new Button("Add");
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         VBox namePane = new VBox(5);
-        Label nameLabel = new Label("food name");
+        Label nameLabel = new Label("Food name:");
         TextField nameInput = new TextField();
         namePane.getChildren().addAll(nameLabel, nameInput);
 
         VBox carbPane = new VBox(5);
-        Label carbLabel = new Label("carbohydrates per 100g");
+        Label carbLabel = new Label("Carbohydrates per 100g:");
         TextField carbInput = new TextField();
         carbPane.getChildren().addAll(carbLabel, carbInput);
 
         VBox proteinPane = new VBox(5);
-        Label proteinLabel = new Label("proteins per 100g");
+        Label proteinLabel = new Label("Proteins per 100g:");
         TextField proteinInput = new TextField();
         proteinPane.getChildren().addAll(proteinLabel, proteinInput);
 
         VBox fatPane = new VBox(5);
-        Label fatLabel = new Label("fat per 100g");
+        Label fatLabel = new Label("Fat per 100g:");
         TextField fatInput = new TextField();
         fatPane.getChildren().addAll(fatLabel, fatInput);
 
         VBox amountPane = new VBox(5);
-        Label amountLabel = new Label("amount");
+        Label amountLabel = new Label("Amount in grams:");
         TextField amountInput = new TextField();
         amountPane.getChildren().addAll(amountLabel, amountInput);
-        
-        Label title = new Label("Add a new food");
+
+        Label title = new Label("Add a new food!");
 
         createForm.getChildren().addAll(title, namePane, carbPane, proteinPane,
                 fatPane, amountPane, createFood);
@@ -298,7 +325,7 @@ public class DiaryUi extends Application {
             Food f = new Food(userLoggedIn.getId(), nameInput.getText(),
                     Double.parseDouble(carbInput.getText()),
                     Double.parseDouble(proteinInput.getText()),
-                    Double.parseDouble(fatInput.getText()), 
+                    Double.parseDouble(fatInput.getText()),
                     Double.parseDouble(amountInput.getText()),
                     LocalDate.now());
             try {
@@ -306,7 +333,7 @@ public class DiaryUi extends Application {
             } catch (SQLException ex) {
                 Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             nameInput.setText("");
             carbInput.setText("");
             proteinInput.setText("");
@@ -330,17 +357,7 @@ public class DiaryUi extends Application {
             if (diary.getLoggedUser() != null) {
                 e.consume();
             }
-
         });
-    }
-
-    /**
-     * displaying a message when closing
-     */
-    @Override
-    public void stop() {
-        // tee lopetustoimenpiteet täällä
-        System.out.println("thank you, welcome again");
     }
 
     public static void main(String[] args) {

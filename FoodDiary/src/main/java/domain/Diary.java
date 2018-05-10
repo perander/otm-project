@@ -108,7 +108,7 @@ public class Diary {
         }
 
         User user = new User(username, password);
-        
+
         try {
             userDao.saveOrUpdate(user);
         } catch (Exception e) {
