@@ -61,8 +61,6 @@ public class UserTest {
         User user2 = new User("teppo", "password");
         assertTrue(user1.equals(user2));
     }
-    
-   
 
     @After
     public void tearDown() {

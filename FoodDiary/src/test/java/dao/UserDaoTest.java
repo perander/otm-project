@@ -5,7 +5,6 @@
  */
 package dao;
 
-import domain.Food;
 import domain.User;
 import java.io.File;
 import java.sql.SQLException;
@@ -67,7 +66,7 @@ public class UserDaoTest {
         userDao.saveOrUpdate(user);
         assertEquals(user, userDao.findByName("new"));
     }
-    
+
     @Test
     public void findByNameReturnsNull() throws SQLException {
         assertEquals(null, userDao.findByName("new"));

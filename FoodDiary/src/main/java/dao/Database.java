@@ -47,10 +47,6 @@ public class Database {
         lista.add("CREATE TABLE IF NOT EXISTS Food (id integer PRIMARY KEY, "
                 + "userId integer, name varchar(255), carb REAL, protein REAL, fat REAL, amount REAL, date Date);");
         lista.add("CREATE TABLE IF NOT EXISTS User (id integer PRIMARY KEY, name varchar(255), password varchar(255));");
-        lista.add("CREATE TABLE IF NOT EXISTS Entry (id integer PRIMARY KEY, "
-                + "user_id integer, food_id integer, date Date, amount REAL, "
-                + "FOREIGN KEY (user_id) REFERENCES User (id), "
-                + "FOREIGN KEY (food_id) REFERENCES Food (id));");
 
         return lista;
     }
@@ -60,7 +56,6 @@ public class Database {
 
         lista.add("DROP TABLE Food");
         lista.add("DROP TABLE User");
-        lista.add("DROP TABLE Entry");
 
         return lista;
     }

@@ -60,14 +60,13 @@ public class FoodDaoTest {
     public void saveOrUpdateWorks() throws SQLException {
         assertEquals(food, foodDao.saveOrUpdate(food));
     }
-    
 
     @Test
     public void findByNameWorks() throws SQLException {
         foodDao.saveOrUpdate(food);
         assertEquals(food, foodDao.findByName("new"));
     }
-    
+
     @Test
     public void findByNameReturnsNull() throws SQLException {
         assertEquals(null, foodDao.findByName("new"));
@@ -92,15 +91,15 @@ public class FoodDaoTest {
         }
 
     }
-    
+
     @Test
-    public void findByUserIdWorks() throws SQLException{
+    public void findByUserIdWorks() throws SQLException {
         Food first = new Food(1, "first", 0.0, 0.0, 0.0, 0.0, LocalDate.now());
         Food second = new Food(2, "another", 0.0, 0.0, 0.0, 0.0, LocalDate.now());
         Food third = new Food(1, "third", 0.0, 0.0, 0.0, 0.0, LocalDate.now());
-        
+
         foodDao.saveOrUpdate(first);
-        foodDao.saveOrUpdate(second);        
+        foodDao.saveOrUpdate(second);
         foodDao.saveOrUpdate(third);
 
         List<Food> list = foodDao.findByUserId(1);
@@ -108,16 +107,27 @@ public class FoodDaoTest {
         for (int i = 0; i < list.size(); i++) {
             assertEquals(1, list.get(i).getUserId(), 0);
         }
-        
+
     }
-    
+
+    @Test
+    public void findByUserIdWorksWithOne() throws SQLException {
+        Food first = new Food(1, "first", 0.0, 0.0, 0.0, 0.0, LocalDate.now());
+
+        foodDao.saveOrUpdate(first);
+
+        List<Food> list = foodDao.findByUserId(1);
+
+        assertTrue(list.size() == 1);
+
+    }
 
     @Test
     public void findOneFindsOne() throws SQLException {
         foodDao.saveOrUpdate(food);
         assertEquals(food, foodDao.findOne(1));
     }
-    
+
     @Test
     public void findOneReturnsNull() throws SQLException {
         assertEquals(null, foodDao.findOne(1));

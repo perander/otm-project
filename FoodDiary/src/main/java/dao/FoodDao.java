@@ -69,7 +69,7 @@ public class FoodDao implements Dao<Food, Integer> {
      */
     @Override
     public Food saveOrUpdate(Food f) throws SQLException {
-       
+
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO Food (userId, name, carb, protein, fat, amount, date) "
@@ -101,17 +101,14 @@ public class FoodDao implements Dao<Food, Integer> {
 
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
-                    "SELECT id, userId, name, carb, protein, fat, amount, date "
-                    + "FROM Food WHERE userId = ? ORDER BY date DESC");
+                    "SELECT userId, name, carb, protein, fat, amount, date "
+                    + "FROM Food WHERE userId = ?");
             stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
-            boolean hasOne = rs.next();
-            if (!hasOne) {
-                return null;
-            }
+
             while (rs.next()) {
-                Food f = new Food(rs.getInt("id"), rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
+                Food f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                         rs.getDouble("protein"), rs.getDouble("fat"),
                         rs.getDouble("amount"), rs.getDate("date").toLocalDate());
 

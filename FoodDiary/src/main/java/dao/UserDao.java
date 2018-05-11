@@ -67,9 +67,7 @@ public class UserDao implements Dao<User, Integer> {
         return users;
     }
 
-    
     //NEVER USED
-    
     /**
      * delete a user by a user id
      *
@@ -113,7 +111,7 @@ public class UserDao implements Dao<User, Integer> {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO User (name, password) VALUES (?, ?)");
             stmt.setString(1, u.getUsername());
             stmt.setString(2, u.getPassword());
-            
+
             stmt.executeUpdate();
         }
 
@@ -140,32 +138,4 @@ public class UserDao implements Dao<User, Integer> {
             return new User(result.getInt("id"), result.getString("name"), result.getString("password"));
         }
     }
-
-    /**
-     * find users who have entered a specific food
-     *
-     * @param id id of the food
-     * @return a list of users who have entered the food
-     * @throws SQLException
-     */
-    //OPTIONAL
-    //to find out most popular foods, for example
-//    public List<User> findByFoodId(Integer id) throws SQLException {
-//        List<User> users = new ArrayList<>();
-//
-//        try (Connection conn = database.getConnection();
-//                
-//                ResultSet rs = conn.prepareStatement("SELECT User.id, User.name "
-//                        + "FROM Food, User, AnnosRaakaAine "
-//                        + "WHERE Food.id = " + id + " "
-//                        + "AND Food.id = Entry.food_id "
-//                        + "AND User.id = Entry.user_id").executeQuery()) {
-//
-//            while (rs.next()) {
-//                users.add(new User(rs.getInt("id"), rs.getString("name")));
-//            }
-//        }
-//        return users;
-//    }
-
 }

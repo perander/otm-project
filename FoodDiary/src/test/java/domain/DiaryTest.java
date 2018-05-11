@@ -6,7 +6,6 @@
 package domain;
 
 import dao.Database;
-import dao.EntryDao;
 import dao.FoodDao;
 import dao.UserDao;
 import java.sql.SQLException;
@@ -25,7 +24,6 @@ public class DiaryTest {
 
     UserDao userDao;
     FoodDao foodDao;
-    EntryDao entryDao;
     Diary diary;
 
     public DiaryTest() {
@@ -46,18 +44,11 @@ public class DiaryTest {
 
         userDao = new UserDao(database);
         foodDao = new FoodDao(database);
-        entryDao = new EntryDao(database);
-        diary = new Diary(foodDao, userDao, entryDao);
+        diary = new Diary(foodDao, userDao);
     }
 
     @After
     public void tearDown() {
     }
 
-//    @Test
-//    public void FoodIsAdded() throws SQLException{
-//        Food f = new Food("new food", 1.0, 1.0, 1.0);
-//        diary.addFood(f);
-//        assertEquals(foodDao.findByName("new food"), f);
-//    }
 }

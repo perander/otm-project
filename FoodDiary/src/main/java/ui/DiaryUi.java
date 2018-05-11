@@ -22,7 +22,10 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
@@ -46,16 +49,15 @@ public class DiaryUi extends Application {
     private Scene foodScene;
     private Scene newUserScene;
     private Scene loginScene;
+    private Alert error;
 
     private User userLoggedIn;
     private VBox foodNodes;
 
     private Label menuLabel = new Label();
 
-    private static DecimalFormat df2 = new DecimalFormat(".##");
-
     /**
-     * initialize the database and data access object classes
+     * initialise the database and data access object classes
      *
      * @throws Exception
      */
@@ -77,53 +79,6 @@ public class DiaryUi extends Application {
     }
 
     /**
-     * create an line with the entered food and its nutritional value
-     *
-     * @param food food to be displayed
-     * @return the view with a food name and amount of carbohydrates, protein
-     * and fat
-     */
-    public Node createFoodNode(Food food) {
-
-        Double amount = food.getAmount() / 100;
-        HBox box = new HBox(50);
-        Label label = new Label(food.getName() + ", " + food.getAmount()
-                + " grams\n(carbohydrates: " + df2.format(food.getCarb() * amount) + "g, protein: "
-                + df2.format(food.getProtein() * amount) + "g, fat: "
-                + df2.format(food.getFat() * amount) + "g)");
-
-        label.setMinHeight(28);
-
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        box.setPadding(new Insets(0, 5, 0, 5));
-
-        box.getChildren().addAll(label, spacer);
-        return box;
-    }
-
-    /**
-     * creates a node with the current date
-     *
-     * @param date date to be displayed in the node
-     * @return node with the current date
-     */
-    public Node dateStamp(LocalDate date) {
-
-        HBox box = new HBox(50);
-        Label label = new Label(date.toString());
-
-        label.setMinHeight(28);
-
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
-        box.setPadding(new Insets(0, 5, 0, 5));
-
-        box.getChildren().addAll(label, spacer);
-        return box;
-    }
-
-    /**
      * update the food list when a new one is added
      *
      * @throws SQLException
@@ -133,24 +88,40 @@ public class DiaryUi extends Application {
 
         List<Food> foods = diary.getUsersCollection(userLoggedIn);
 
-        
         //doesn't keep the old date in place
-        if (foods != null && !foods.isEmpty()) {
-            foodNodes.getChildren().add(dateStamp(foods.get(0).getDate()));
-            int size = foods.size() - 1;
+        if (!foods.isEmpty()) {
+            Food first = foods.get(foods.size() - 1);
+            Day day = new Day(first.getDate());
+            day.addFood(first);
+//            foodNodes.getChildren().add(day.getDay());
+
+            Day current = day;
+            int size = foods.size() - 2;
             for (int i = size; i >= 0; i--) {
+                //next food to be added
                 Food food = foods.get(i);
-                if (i < size) {
-                    Food prev = foods.get(i + 1);
-                    if (!food.getDate().equals(prev.getDate())) {
-                        foodNodes.getChildren().add(dateStamp(prev.getDate()));
-                    }
+
+                //previous food
+                Food prev = foods.get(i + 1);
+
+                if (!food.getDate().equals(prev.getDate())) {
+                    foodNodes.getChildren().add(current.getDay());
+                    Day newDay = new Day(food.getDate());
+                    current = newDay;
                 }
-                foodNodes.getChildren().add(createFoodNode(food));
+
+                current.addFood(food);
+
             }
 
-        }
+            foodNodes.getChildren().add(current.getDay());
 
+        }
+    }
+
+    public void showError() {
+        Alert alert = new Alert(AlertType.ERROR, "Insert a number like this: X.X !", ButtonType.CLOSE);
+        alert.showAndWait();
     }
 
     /**
@@ -211,6 +182,10 @@ public class DiaryUi extends Application {
         loginPane.getChildren().addAll(loginMessage, inputPane, passwordPane, loginButton, createButton);
 
         loginScene = new Scene(loginPane, 300, 250);
+
+        //error scene
+        HBox errorPane = new HBox();
+        Label error = new Label("has to be double: X.X");
 
         // new createNewUserScene
         VBox newUserPane = new VBox(10);
@@ -327,22 +302,30 @@ public class DiaryUi extends Application {
         foodNodes = new VBox(10);
         foodNodes.setMaxWidth(500);
         foodNodes.setMinWidth(280);
+        redrawFoodlist();
 
         foodScollbar.setContent(foodNodes);
         mainPane.setRight(createForm);
         mainPane.setTop(menuPane);
 
         createFood.setOnAction(e -> {
-            Food f = new Food(userLoggedIn.getId(), nameInput.getText(),
-                    Double.parseDouble(carbInput.getText()),
-                    Double.parseDouble(proteinInput.getText()),
-                    Double.parseDouble(fatInput.getText()),
-                    Double.parseDouble(amountInput.getText()),
-                    LocalDate.now());
+
             try {
-                diary.addFood(f);
-            } catch (SQLException ex) {
-                Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
+                Food f = new Food(userLoggedIn.getId(), nameInput.getText(),
+                        Double.parseDouble(carbInput.getText()),
+                        Double.parseDouble(proteinInput.getText()),
+                        Double.parseDouble(fatInput.getText()),
+                        Double.parseDouble(amountInput.getText()),
+                        LocalDate.now());
+
+                try {
+                    diary.addFood(f);
+                } catch (SQLException ex) {
+                    Logger.getLogger(DiaryUi.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } catch (NumberFormatException n) {
+                showError();
             }
 
             nameInput.setText("");

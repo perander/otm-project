@@ -41,7 +41,7 @@ public class FoodTest {
     @Test
     public void ConstructorWorks() {
         Food f = new Food(1, 1, "new", 1.0, 2.0, 3.0, 10.0, LocalDate.now());
-        
+
         assertEquals(1, f.getId(), 0);
         assertEquals(1, f.getUserId(), 0);
         assertEquals("new", f.getName());
