@@ -21,10 +21,10 @@ When a user has created a valid username and logs in, this is what happens in th
 
 ## To be developed further
 
-The ui-class has almost everything needed to create the different scenes a bit unclearly: it could have been divided into clearer parts, even within the class.
+- The ui-class has almost everything needed to create the different scenes a bit unclearly: it could have been divided into clearer parts, even within the class.
 
-Some of the tests could have been more varying: now the test classes contain a lot of repetitive code.
+- Some of the tests could have been more varying: now the test classes contain a lot of repetitive code.
 
-Most errors are not handled in any way: printing the full stack trace to the command line.
+- Most errors are not handled in any way: printing the full stack trace to the command line.
 
-There is no user guide.
+- There is no user guide.
