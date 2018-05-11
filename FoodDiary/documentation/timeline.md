@@ -8,3 +8,5 @@ Date | Hours | Activity
 23.4.| 5 | Packaging; first release; database initialised by the application
 29.4.| 3 | Trying to implement an api to search for foods
 2.5. | 6 | Writing javadoc, tests, possibility to display and add nutritional information
+10.5.| 12 | Refactoring
+11.5.| 6 | Refactoring, testing, last modifications to the ui
