@@ -23,14 +23,11 @@ First there will be only one type of users, who have access to basic functions r
 
 - user can see the personal food collection
   - user can see only the collection associated to the user
+  - foods are shown by their date in a list, latest dates first
 - user can add foods with their nutritional value
-- user can search foods from the database and see their nutritional values
 - user can add a food to the collection
-  - food, amount, date and time
-- user can delete foods from the collection
-- user can access information about the food consumption over time (for example over the past week or month)
-  - percentages of the macronutrients
-  - calorie intake vs the personal goal
+  - user adds the nutritional information per 100 grams and how much was eaten
+  - the nutritional value of the portion will be calculated by the program
 - user can log out from the system
 
 ## Possible future ideas
