@@ -6,11 +6,9 @@
 package ui;
 
 import dao.Database;
-import dao.EntryDao;
 import dao.FoodDao;
 import dao.UserDao;
 import domain.Diary;
-import domain.Entry;
 import domain.Food;
 import domain.User;
 import java.io.File;
@@ -73,9 +71,7 @@ public class DiaryUi extends Application {
         UserDao userDao = new UserDao(database);
         FoodDao foodDao = new FoodDao(database);
 
-        //entrydao not needed?
-        EntryDao entryDao = new EntryDao(database);
-        diary = new Diary(foodDao, userDao, entryDao);
+        diary = new Diary(foodDao, userDao);
         userLoggedIn = new User(1, "hello", "salasana");
 
     }

@@ -7,6 +7,7 @@ package dao;
 
 import domain.Food;
 import domain.User;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,14 @@ public class UserDaoTest {
 
     @Before
     public void setUp() throws ClassNotFoundException, SQLException {
-        database = new Database("jdbc:sqlite:fooddiaryTest.db");
+        File dbDirectory = new File("dbTest");
+        dbDirectory.mkdir();
+
+        database = new Database("jdbc:sqlite:dbTest" + File.separator + "fooddiaryTest.db");
         database.init();
 
         userDao = new UserDao(database);
-        user = new User("uusi");
+        user = new User(1, "new", "password");
     }
 
     @After
@@ -61,13 +65,18 @@ public class UserDaoTest {
     @Test
     public void findByNameWorks() throws SQLException {
         userDao.saveOrUpdate(user);
-        assertEquals(user, userDao.findByName("uusi"));
+        assertEquals(user, userDao.findByName("new"));
+    }
+    
+    @Test
+    public void findByNameReturnsNull() throws SQLException {
+        assertEquals(null, userDao.findByName("new"));
     }
 
     @Test
     public void findAllFindsAll() throws SQLException {
-        User first = new User("first");
-        User second = new User("another");
+        User first = new User(1, "first", "password1");
+        User second = new User(2, "another", "password2");
         userDao.saveOrUpdate(first);
         userDao.saveOrUpdate(second);
 
@@ -92,15 +101,15 @@ public class UserDaoTest {
 
     @Test
     public void deleteWorks() throws SQLException {
-        User first = new User("first");
-        User second = new User("another");
+        User first = new User(1, "first", "password");
+        User second = new User(2, "another", "password");
         userDao.saveOrUpdate(first);
         userDao.saveOrUpdate(second);
 
         userDao.delete(1);
 
         for (User u : userDao.findAll()) {
-            assertTrue(u.equals(second));
+            assertEquals(second, u);
         }
 
     }

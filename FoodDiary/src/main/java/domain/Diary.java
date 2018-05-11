@@ -5,7 +5,6 @@
  */
 package domain;
 
-import dao.EntryDao;
 import dao.FoodDao;
 import dao.UserDao;
 import java.sql.SQLException;
@@ -23,17 +22,13 @@ public class Diary {
 
     private FoodDao foodDao;
     private UserDao userDao;
-    private EntryDao entryDao;
     private User loggedIn;
 
-    public Diary(FoodDao foodDao, UserDao userDao, EntryDao entryDao) {
+    public Diary(FoodDao foodDao, UserDao userDao) {
         this.foodDao = foodDao;
         this.userDao = userDao;
-        this.entryDao = entryDao;
     }
 
-    //KANNATTAAKO OLLA KAKSI LISÄYSMETODIA, KUN ON KERRAN JO KAKSI FOOD-KONSTRUKTORIA??
-    //voisi olla vain 'addFood(Food f)' ja food olisi määritetty ennen lisäystä
     /**
      * adding a food
      *
@@ -56,7 +51,6 @@ public class Diary {
      * @return all foods
      * @throws SQLException
      */
-    //returns ALL the foods -> should be an entry list
     public List<Food> getUsersCollection(User user) throws SQLException {
         return foodDao.findByUserId(user.getId());
     }

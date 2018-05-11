@@ -23,7 +23,18 @@ public class Food {
     private double amount;
     private LocalDate date;
 
-    public Food(Integer userId, String name, double carb, double protein, double fat, double amount, LocalDate date) {
+    public Food(int userId, String name, double carb, double protein, double fat, double amount, LocalDate date) {
+        this.userId = userId;
+        this.name = name;
+        this.carb = carb;
+        this.protein = protein;
+        this.fat = fat;
+        this.amount = amount;
+        this.date = date;
+    }
+
+    public Food(Integer id, Integer userId, String name, double carb, double protein, double fat, double amount, LocalDate date) {
+        this.id = id;
         this.userId = userId;
         this.name = name;
         this.carb = carb;
@@ -86,6 +97,9 @@ public class Food {
         if (this.id != other.id) {
             return false;
         }
+        if (this.userId != other.userId) {
+            return false;
+        }
         if (Double.doubleToLongBits(this.carb) != Double.doubleToLongBits(other.carb)) {
             return false;
         }
@@ -95,10 +109,18 @@ public class Food {
         if (Double.doubleToLongBits(this.fat) != Double.doubleToLongBits(other.fat)) {
             return false;
         }
+        if (Double.doubleToLongBits(this.amount) != Double.doubleToLongBits(other.amount)) {
+            return false;
+        }
         if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.date, other.date)) {
             return false;
         }
         return true;
     }
+
+    
 
 }

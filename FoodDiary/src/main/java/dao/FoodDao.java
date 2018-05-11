@@ -35,7 +35,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 ResultSet rs = conn.prepareStatement(
                         "SELECT * FROM Food").executeQuery()) {
             while (rs.next()) {
-                foods.add(new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
+                foods.add(new Food(rs.getInt("id"), rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                         rs.getDouble("protein"), rs.getDouble("fat"),
                         rs.getDouble("amount"), rs.getDate("date").toLocalDate()));
             }
@@ -55,13 +55,7 @@ public class FoodDao implements Dao<Food, Integer> {
             PreparedStatement stmt = conn.prepareStatement("DELETE FROM Food WHERE id = ?");
             stmt.setInt(1, key);
             stmt.executeUpdate();
-            //No point to delete from previous collecions? They're just history
-//            PreparedStatement stmt2 = conn.prepareStatement("DELETE FROM Entry WHERE food_id = ?");
-//            stmt2.setInt(1, key);
-//            stmt2.executeUpdate();
-
             stmt.close();
-//            stmt2.close();
         }
 
     }
@@ -75,12 +69,7 @@ public class FoodDao implements Dao<Food, Integer> {
      */
     @Override
     public Food saveOrUpdate(Food f) throws SQLException {
-//        Food byName = findByName(f.getName());
-//
-//        if (byName != null) {
-//            return byName;
-//        }
-
+       
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO Food (userId, name, carb, protein, fat, amount, date) "
@@ -122,7 +111,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
             while (rs.next()) {
-                Food f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
+                Food f = new Food(rs.getInt("id"), rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                         rs.getDouble("protein"), rs.getDouble("fat"),
                         rs.getDouble("amount"), rs.getDate("date").toLocalDate());
 
@@ -144,7 +133,7 @@ public class FoodDao implements Dao<Food, Integer> {
      */
     public Food findByName(String name) throws SQLException {
         try (Connection conn = database.getConnection()) {
-            PreparedStatement stmt = conn.prepareStatement("SELECT userId, name, carb, protein, fat, amount, date "
+            PreparedStatement stmt = conn.prepareStatement("SELECT id, userId, name, carb, protein, fat, amount, date "
                     + "FROM Food WHERE name = ?");
             stmt.setString(1, name);
 
@@ -153,7 +142,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
 
-            return new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
+            return new Food(rs.getInt("id"), rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                     rs.getDouble("protein"), rs.getDouble("fat"),
                     rs.getDouble("amount"), rs.getDate("date").toLocalDate());
         }
@@ -177,7 +166,7 @@ public class FoodDao implements Dao<Food, Integer> {
                 return null;
             }
 
-            f = new Food(rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
+            f = new Food(rs.getInt("id"), rs.getInt("userId"), rs.getString("name"), rs.getDouble("carb"),
                     rs.getDouble("protein"), rs.getDouble("fat"),
                     rs.getDouble("amount"), rs.getDate("date").toLocalDate());
             rs.close();
